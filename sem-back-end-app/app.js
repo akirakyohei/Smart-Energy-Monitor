@@ -9,6 +9,15 @@ const swaggerSpec = require('./configs/swagger.config');
 const open = require('open');
 const livereload = require('livereload');
 const connectLiveReload = require('connect-livereload');
+
+// api
+const role = require("./routes/role.route");
+const auth = require("./routes/auth.route");
+
+
+
+
+
 const app = express();
 var corsOptions = {
     origin: "http://localhost:3000"
@@ -27,7 +36,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(logger('dev'));
 app.use(express.json());
-
 app.use(express.urlencoded({ extended: true }))
 
 // 
@@ -42,9 +50,16 @@ mongoose.connect(
 // 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // 
-app.get('/', function(req, res) {
-    res.send('Hello world!');
-})
+
+
+app.use("/api/auth", auth);
+app.use("/api/role", [], role);
+
+
+
+
+
+
 const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, function() {
