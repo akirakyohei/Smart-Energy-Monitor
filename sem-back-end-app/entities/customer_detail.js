@@ -1,11 +1,15 @@
-const mogoose = require('mogoose');
+const mongoose = require('mongoose');
 const User = require('./user');
 
-mogoose.Promise = global.Promise;
+mongoose.Promise = global.Promise;
 
 const customerDetailSchema = new mongoose.Schema({
-    _id: mongoose.Schema.Type.ObjectId,
-    userId: { type: mongoose.Schema.Type.ObjectId, ref: 'User' },
+    _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        auto: true,
+    },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     firstName: { type: String, default: null },
     lastName: { type: String, default: null },
     fullName: { type: String, default: null },
@@ -15,10 +19,10 @@ const customerDetailSchema = new mongoose.Schema({
     district: { type: String },
     village: { type: String },
     image: { type: String },
-    birthDay: { type: Date, default: null },
+    birthday: { type: Date, default: null },
     activeKey: { type: String },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });
 
-export default mongoose.model('CustomerDetail', customerDetailSchema);
+module.exports = CustomerDetail = mongoose.model('CustomerDetail', customerDetailSchema);

@@ -19,6 +19,7 @@ exports.createPermission = function(req, res) {
             message: 'Permission created successfully',
             Permission: newPermission,
         });
+
     }).catch((err) => {
         console.log(err);
         res.status(500).json({
@@ -26,6 +27,7 @@ exports.createPermission = function(req, res) {
             message: "Server error. Please try again.",
             error: err.message,
         });
+        return;
     });
 
 }
@@ -39,12 +41,14 @@ exports.getPermissionById = function(req, res) {
                 message: "Found",
                 permission: singlePermission,
             })
+            return;
         }).catch((err) => {
             res.status(500).json({
                 success: false,
                 message: "This permission does not exist",
                 error: err.message,
             });
+            return;
         });
 }
 
@@ -57,12 +61,14 @@ exports.getAllPermission = function(req, res) {
                 message: "List of all permission.",
                 permissions: permissions,
             })
+            return;
         }).catch((err) => {
             res.status(500).json({
                 success: false,
                 message: "Server error. Please try again.",
                 error: err.message,
             });
+            return;
         });
 }
 
@@ -78,11 +84,13 @@ exports.updatePermission = function(req, res) {
                 message: "Permission is updated.",
                 updatePermission: updatePermission,
             })
+            return;
         }).catch((err) => {
             res.status(500).json({
                 success: false,
                 message: "Server error. Please try again."
             });
+            return;
         });
 }
 
@@ -92,9 +100,11 @@ exports.deletePermission = function(req, res) {
             res.status(204).json({
                 success: true,
             })
+            return;
         }).catch((err) => {
             res.status(500).json({
                 success: false,
             })
+            return;
         })
 }

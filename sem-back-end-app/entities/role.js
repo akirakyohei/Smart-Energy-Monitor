@@ -2,6 +2,30 @@ const mongoose = require('mongoose');
 const Permission = require('./permission');
 mongoose.Promise = global.Promise;
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      Role:
+ *          type: object
+ *          required:
+ *          properties:
+ *              _id:
+ *                  type: objectId
+ *              name:
+ *                  type: objectId
+ *              description:
+ *                  type: string
+ *              permission:
+ *                  type: objectId[]
+ *              status:
+ *                  type: boolean
+ *              createdAt:
+ *                  type: date
+ *              updatedAt:
+ *                  type: date
+ *      
+ */
 const roleSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: { type: String, default: null, maxlength: 40 },

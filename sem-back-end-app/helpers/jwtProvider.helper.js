@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
-const { UserDetail } = require('../models/user_detail');
+const UserDetail = require('../models/user_detail');
 
 let genrateToken = (user, secretSignature, tokenLife) => {
     return new Promise((resolve, reject) => {
-        let data = new UserDetail();
+        const data = new UserDetail();
         data._id = user._id;
         data.username = user.username;
         data.email = user.email;

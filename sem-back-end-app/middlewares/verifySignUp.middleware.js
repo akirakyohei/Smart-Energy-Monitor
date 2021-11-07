@@ -17,6 +17,7 @@ const checkDuplicateUsernameOrEmail = (req, res, next) => {
                 res.status(400).send({ message: "failed!Username is already in use!" });
                 return;
             }
+
             var email = req.body.email;
             CustomerDetail.findOne({ email: email }).exec((err, customer_detail) => {
                 if (err) {
