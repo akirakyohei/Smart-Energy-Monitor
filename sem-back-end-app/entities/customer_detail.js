@@ -1,8 +1,46 @@
 const mongoose = require('mongoose');
-const User = require('./user');
 
 mongoose.Promise = global.Promise;
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      CustomerDetail:
+ *          type: object
+ *          properties:
+ *              _id:
+ *                  type: objectId
+ *              userId:
+ *                  type: objectId
+ *              firstName:
+ *                  type: string
+ *              lastName:
+ *                  type: string
+ *              fullName:
+ *                  type: string
+ *              province:
+ *                  type: string
+ *              district:
+ *                  type: string
+ *              village:
+ *                  type: string
+ *              phone:
+ *                  type: string
+ *              image:
+ *                  type: string
+ *              address:
+ *                  type: string
+ *              birthday:
+ *                  type: date
+ *              activeKey:
+ *                  type: string
+ *              createdAt:
+ *                  type: date
+ *              updatedAt:
+ *                  type: date
+ *      
+ */
 const customerDetailSchema = new mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId,

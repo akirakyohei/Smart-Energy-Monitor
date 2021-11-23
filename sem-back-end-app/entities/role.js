@@ -13,7 +13,7 @@ mongoose.Promise = global.Promise;
  *              _id:
  *                  type: objectId
  *              name:
- *                  type: objectId
+ *                  type: string
  *              description:
  *                  type: string
  *              permission:
@@ -27,8 +27,12 @@ mongoose.Promise = global.Promise;
  *      
  */
 const roleSchema = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
-    name: { type: String, default: null, maxlength: 40 },
+    _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        auto: true,
+    },
+    name: { type: String, unique: true, default: null, maxlength: 40 },
     description: { type: String, default: null, maxlength: 255 },
     permission: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Permission' }],
     status: { type: Boolean, default: false },
@@ -36,4 +40,4 @@ const roleSchema = new mongoose.Schema({
     updatedAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('Role', roleSchema);
+module.exports = Role = mongoose.model('Role', roleSchema);

@@ -1,23 +1,20 @@
-// /**
-//  * @swagger
-//  * components:
-//  *  schemas:
-//  *      UserDetail:
-//  *          type: object
-//  *          required:
-//  *          properties:
-//  *              _id:
-//  *                  type: ObjectId
-//  *              username:
-//  *                  type: String
-//  *              email:
-//  *                  type: String
-//  *              role:
-//  *                  type: String
-//  *              permission:
-//  *                  type: String[]
-//  *      
-//  */
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      UserDetail:
+ *          type: object
+ *          properties:
+ *              username:
+ *                  type: string
+ *              email:
+ *                  type: string
+ *              role:
+ *                  type: string
+ *              permission:
+ *                  type: string[]
+ *      
+ */
 let UserDetail = class {
     constructor(id = "", username = "", email = "", role = "", permissions = []) {
         this._id = id,

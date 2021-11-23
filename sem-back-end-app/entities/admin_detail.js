@@ -3,6 +3,35 @@ const validator = require('validator');
 
 mongoose.Promise = global.Promise;
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      CustomerDetail:
+ *          type: object
+ *          properties:
+ *              _id:
+ *                  type: objectId
+ *              userId:
+ *                  type: objectId
+ *              firstName:
+ *                  type: string
+ *              lastName:
+ *                  type: string
+ *              fullName:
+ *                  type: string
+ *              image:
+ *                  type: string
+ *              address:
+ *                  type: string
+ *              birthday:
+ *                  type: date
+ *              createdAt:
+ *                  type: date
+ *              updatedAt:
+ *                  type: date
+ *      
+ */
 const adminDetailSchema = new mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -15,6 +44,7 @@ const adminDetailSchema = new mongoose.Schema({
     fullName: { type: String, required: true, maxLength: 30 },
     birthday: { type: Date },
     image: { type: String, maxLength: 255 },
+    aera: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Aera' }],
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 });

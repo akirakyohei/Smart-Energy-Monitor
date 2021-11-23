@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
         auto: true,
     },
     roleId: { type: mongoose.Schema.Types.ObjectId, ref: 'Role' },
-    username: { type: String, required: true, maxlength: 20, trim: true },
+    username: { type: String, unique: true, required: true, maxlength: 20, trim: true },
     password: { type: String, required: true, minLength: 7 },
     email: {
         type: String,

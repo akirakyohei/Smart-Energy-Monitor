@@ -67,7 +67,7 @@ exports.updateRole = function(req, res) {
     const id = req.params.id;
     const updateRole = req.body;
     updateRole.updatedAt = Date.now();
-    Role.update({ _id: id }, { $set: r })
+    Role.findByIdAndUpdate({ _id: id }, { $set: updateRole })
         .exec()
         .then(() => {
             res.status(200).json({
@@ -88,10 +88,13 @@ exports.deleteRole = function(req, res) {
         .exec().then(() => {
             res.status(204).json({
                 success: true,
+                message: "Role is deleted."
             })
         }).catch((err) => {
             res.status(500).json({
                 success: false,
+                message: "Server error. Please try again.",
+                error: err
             })
         })
 }

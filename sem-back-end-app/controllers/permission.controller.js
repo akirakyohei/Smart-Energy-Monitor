@@ -8,7 +8,6 @@ exports.createPermission = function(req, res) {
     let permission = new Permission({
         _id: mongoose.Types.ObjectId(),
         name: req.body.name,
-        code: req.body.code,
         description: req.body.description,
         status: true
     });
@@ -72,11 +71,12 @@ exports.getAllPermission = function(req, res) {
         });
 }
 
+
 exports.updatePermission = function(req, res) {
     const id = req.params.id;
     const updatePermission = req.body;
     updatePermission.updatedAt = Date.now();
-    Permission.update({ _id: id }, { $set: r })
+    Permission.findByIdAndUpdate({ _id: id }, { $set: r })
         .exec()
         .then(() => {
             res.status(200).json({

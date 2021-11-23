@@ -2,12 +2,50 @@ const mogoose = require('mogoose');
 
 mongoose.Promise = global.Promise;
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      DeviceDetail:
+ *          type: object
+ *          properties:
+ *              _id:
+ *                  type: objectId
+ *              deviceId:
+ *                  type: objectId
+ *              aeraId:
+ *                  type: objectId
+ *              unitId:
+ *                  type: objectId
+ *              name:
+ *                  type: string
+ *              address:
+ *                  type: string
+ *              description:
+ *                  type: string
+ *              location:
+ *                  type: mixed
+ *              type:
+ *                  type: string
+ *              state:
+ *                  type: number
+ *              createdAt:
+ *                  type: date
+ *              updatedAt:
+ *                  type: date
+ *      
+ */
 const deviceDetailSchema = new mongoose.Schema({
-    _id: mongoose.Schema.type.ObjectId,
-    deviceId: mongoose.Schema.type.ObjectId,
-    areaId: mongoose.Schema.type.ObjectId,
-    unitId: mongoose.Schema.type.ObjectId,
+    _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        auto: true,
+    },
+    deviceId: { type: mongoose.Schema.Types.ObjectId, ref: 'Device' },
+    aeraId: { type: mongoose.Schema.Types.ObjectId, ref: 'Aera' },
+    uinitId: { type: mongoose.Schema.Types.ObjectId, ref: 'Unit' },
     address: { type: String, required: true, maxLength: 255 },
+    location: { type: mongoose.Schema.types.Mixed },
     description: { type: String, maxLength: 255 },
     state: { type: Number },
     type: { type: String },
@@ -15,4 +53,4 @@ const deviceDetailSchema = new mongoose.Schema({
     updatedAt: { type: Date, default: Date.now }
 });
 
-export default mongoose.model("DeviceDetail", deviceDetailSchema);
+module.exports = DeviceDetail = mongoose.model("DeviceDetail", deviceDetailSchema);
