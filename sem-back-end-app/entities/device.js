@@ -1,4 +1,4 @@
-const mogoose = require('mogoose');
+const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 

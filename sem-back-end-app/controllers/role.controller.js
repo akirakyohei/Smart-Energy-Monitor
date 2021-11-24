@@ -1,5 +1,6 @@
 const Role = require('../entities/role');
 const mongoose = require('mongoose');
+const AmqpService = require("../services/rabbitmq.client.rpc.service");
 
 // create
 exports.createRole = function(req, res) {

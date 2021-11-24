@@ -1,4 +1,4 @@
-const mogoose = require('mogoose');
+const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
@@ -43,9 +43,9 @@ const deviceDetailSchema = new mongoose.Schema({
     },
     deviceId: { type: mongoose.Schema.Types.ObjectId, ref: 'Device' },
     aeraId: { type: mongoose.Schema.Types.ObjectId, ref: 'Aera' },
-    uinitId: { type: mongoose.Schema.Types.ObjectId, ref: 'Unit' },
+    unitId: { type: mongoose.Schema.Types.ObjectId, ref: 'Unit' },
     address: { type: String, required: true, maxLength: 255 },
-    location: { type: mongoose.Schema.types.Mixed },
+    location: { type: mongoose.Schema.Types.Mixed },
     description: { type: String, maxLength: 255 },
     state: { type: Number },
     type: { type: String },

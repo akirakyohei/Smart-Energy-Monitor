@@ -17,7 +17,7 @@ exports.signupCustomer = (req, res) => {
     user.isAdmin = false;
     user.status = true;
 
-    Role.findOne({ name: Constrants.ROLE_USER }, (err, role) => {
+    Role.findOne({ name: Constrants.role.ROLE_USER }, (err, role) => {
 
         if (err) {
             res.status(500).json({
