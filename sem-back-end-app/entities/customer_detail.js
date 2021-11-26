@@ -27,8 +27,6 @@ mongoose.Promise = global.Promise;
  *                  type: string
  *              phone:
  *                  type: string
- *              image:
- *                  type: string
  *              address:
  *                  type: string
  *              birthday:
@@ -56,7 +54,6 @@ const customerDetailSchema = new mongoose.Schema({
     phone: { type: String },
     district: { type: String },
     village: { type: String },
-    image: { type: String },
     birthday: { type: Date, default: null },
     activeKey: { type: String },
     createdAt: { type: Date, default: Date.now },

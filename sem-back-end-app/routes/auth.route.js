@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/auth.controller');
 const verifySignup = require("../middlewares/verifySignUp.middleware");
-
+const upload = require('../middlewares/uploadFile.middleware.js');
 
 /**
  * @swagger
@@ -10,10 +10,10 @@ const verifySignup = require("../middlewares/verifySignUp.middleware");
  *   post:
  *     summary: 
  *     tags: [Authentication]
- *     description: "signup by customer without admin role"
+ *     description: "signup by customer without admin role"    
  *     requestBody:
  *          content:
- *              application/json:
+ *              multipart/form-data:
  *                  schema:
  *                      type: object
  *                      properties:
@@ -23,6 +23,9 @@ const verifySignup = require("../middlewares/verifySignUp.middleware");
  *                              type: string
  *                          email:
  *                              type: string
+ *                          image:
+ *                              type: string
+ *                              format: binary
  *                          details:
  *                              type: object
  *                              properties:
@@ -41,8 +44,6 @@ const verifySignup = require("../middlewares/verifySignUp.middleware");
  *                                  district:
  *                                      type: string
  *                                  village:
- *                                      type: string
- *                                  image: 
  *                                      type: string
  *                                  birthday:
  *                                      type: string
@@ -88,8 +89,7 @@ const verifySignup = require("../middlewares/verifySignUp.middleware");
 
 
 
-
-router.post('/signup-customer', verifySignup.checkDuplicateUsernameOrEmail, authController.signupCustomer);
+router.post('/signup-customer', [verifySignup.checkDuplicateUsernameOrEmail, upload.single("image")], authController.signupCustomer);
 
 
 /**

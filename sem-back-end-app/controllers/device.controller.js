@@ -58,7 +58,7 @@ exports.createDevice = async(req, res) => {
     }
 
     var dataRegister = {
-        deviceId: uuid.v4(),
+        deviceId: device._id,
         token: uuid.v4(),
         longitude: req.body.location.long,
         latitude: req.body.location.lat,
@@ -80,7 +80,6 @@ exports.createDevice = async(req, res) => {
                 return;
             } else {
                 console.log(d.data);
-                device.mqttID = d.data.deviceId;
                 device.token = d.data.token;
                 device
                     .save()
@@ -92,6 +91,7 @@ exports.createDevice = async(req, res) => {
                             aeraId: req.body.aeraId,
                             unitId: req.body.unitId,
                             address: req.body.address,
+                            startMonth: req.body.startMonth,
                             location: req.body.location,
                             description: req.body.description,
                             state: Constrant.stateDevice.DEVICE_SUCCESS,
@@ -104,7 +104,6 @@ exports.createDevice = async(req, res) => {
                                 success: true,
                                 message: 'Device created successfully',
                                 device: {
-                                    mqttId: newDevice.mqttID,
                                     token: newDevice.token,
                                     aeraId: newDeviceDetail.aeraId,
                                     unitId: newDeviceDetail.unitId,

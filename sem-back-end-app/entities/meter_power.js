@@ -35,7 +35,7 @@ const meterPowerSchema = new mongoose.Schema({
     deviceId: { type: mongoose.Schema.Types.ObjectId, ref: 'Device' },
     dateTime: { type: Date, required: true },
     activePower: { type: Number, default: 0 },
-    rectivePower: { type: Number, default: 0 },
+    reactivePower: { type: Number, default: 0 },
     voltage: { type: Number, default: 0 },
     intensity: { type: Number, default: 0 },
 }, );

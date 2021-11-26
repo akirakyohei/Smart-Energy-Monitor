@@ -3,12 +3,16 @@ const CustomerDetail = require('../entities/customer_detail');
 const AdminDetail = require('../entities/admin_detail');
 const UserDetail = require("../models/user_detail");
 const Role = require('../entities/role');
+const Image = require("../entities/image");
 const Permission = require('../entities/permission');
+const Resize = require("../services/resizeImg.service");
 const Constrants = require("../constrants/constrant");
 const jwtHelper = require("../helpers/jwtProvider.helper");
 const secretKey = require("../configs/auth.config").secret;
 const bcrypt = require('bcryptjs');
-exports.signupCustomer = (req, res) => {
+const fs = require('fs');
+
+exports.signupCustomer = async(req, res) => {
     User.init()
     const user = new User();
     user.username = req.body.username;
@@ -17,6 +21,19 @@ exports.signupCustomer = (req, res) => {
     user.isAdmin = false;
     user.status = true;
 
+    console.log(req.file);
+
+    var img = req.file.buffer;
+    console.log(img);
+    const fileUpload = new Resize();
+
+    const filename = await fileUpload.save(img, req.file.mimetype, req.file.originalname);
+
+    if (filename != null) {
+        user.image = result;
+    }
+    res.status(200);
+    return;
     Role.findOne({ name: Constrants.role.ROLE_USER }, (err, role) => {
 
         if (err) {
@@ -29,7 +46,6 @@ exports.signupCustomer = (req, res) => {
         }
         console.log(role);
         user.roleId = role._id;
-
         user.save((err, user) => {
 
             if (err) {

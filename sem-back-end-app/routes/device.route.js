@@ -56,6 +56,8 @@ const deviceController = require('../controllers/device.controller');
  *                              type: string
  *                          unitId:
  *                              type: boolean
+ *                          startMonth:
+ *                              type: date
  *                          address:
  *                              type: string
  *                          location:

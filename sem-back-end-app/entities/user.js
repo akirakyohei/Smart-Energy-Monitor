@@ -54,8 +54,8 @@ const userSchema = new mongoose.Schema({
                 throw new Error({ error: 'Invalid email address.' })
             }
         }
-
     },
+    image: { type: String },
     isAdmin: { type: Boolean, default: false },
     status: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now },

@@ -18,6 +18,7 @@ const aera = require("./routes/aera.route");
 const permission = require("./routes/permission.route");
 const unit = require("./routes/unit.route");
 const device = require("./routes/device.route");
+const image = require("./routes/image.route");
 
 
 const app = express();
@@ -59,6 +60,7 @@ app.use("/api/role", [], role);
 app.use("/api/aera", [], aera);
 app.use("/api/unit", [], unit);
 app.use("/api/device", [], device);
+app.use("/api/img", [], image)
 AmqpService.connectAmqpServer();
 
 const PORT = process.env.PORT || 8080;

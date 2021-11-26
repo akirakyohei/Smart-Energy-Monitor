@@ -46,6 +46,7 @@ const deviceDetailSchema = new mongoose.Schema({
     unitId: { type: mongoose.Schema.Types.ObjectId, ref: 'Unit' },
     address: { type: String, required: true, maxLength: 255 },
     location: { type: mongoose.Schema.Types.Mixed },
+    startMonth: { type: Date, required: true },
     description: { type: String, maxLength: 255 },
     state: { type: Number },
     type: { type: String },
