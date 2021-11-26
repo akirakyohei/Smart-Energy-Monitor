@@ -158,4 +158,50 @@ router.post('/signup-customer', [verifySignup.checkDuplicateUsernameOrEmail, upl
 
 router.post('/signin', authController.signin);
 
+
+
+
+/**
+ * @swagger
+ * /api/auth/verify/{data}:
+ *  get:
+ *      summary: 
+ *      tags: [Authentication]
+ *      parameters: [
+ *          {
+ *              name: data,
+ *              in: path,
+ *              type: string,
+ *              required: true
+ *          }
+ *          ]
+ *
+ *      responses:
+ *          200:
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              success:
+ *                                  type: boolean
+ *                                 
+ *          500:
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              success:
+ *                                  type: boolean
+ *                              message:
+ *                                  type: string 
+ *                              error:
+ *                                  type: string
+ * 
+ *                      
+ *                  
+ *                  
+ */
+router.get('/verify/:data', authController.verify);
 module.exports = router;

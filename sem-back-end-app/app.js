@@ -8,6 +8,8 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./configs/swagger.config');
 const open = require('open');
 const AmqpService = require('./services/rabbitmq.client.rpc.service');
+const MailService = require("./services/mail.service");
+const Aes = require('./helpers/aes.cipher.helper');
 // const livereload = require('livereload');
 // const connectLiveReload = require('connect-livereload');
 
@@ -60,7 +62,24 @@ app.use("/api/role", [], role);
 app.use("/api/aera", [], aera);
 app.use("/api/unit", [], unit);
 app.use("/api/device", [], device);
-app.use("/api/img", [], image)
+app.use("/api/img", [], image);
+
+app.use("/api/mail", (req, res) => {
+    var userInfo = {
+        id: "619daa0d800ed15c6392973c",
+        date: Date.now(),
+    };
+
+    var userInfoStr = JSON.stringify(userInfo);
+    console.log(userInfoStr);
+    var cipherUser = Aes.encrypt(userInfoStr);
+    const url = 'http://localhost:8080/api/auth/verify/' + encodeURI(cipherUser);
+    console.log("sendmail")
+    MailService.sendMailVerify("huydong.hoanam@gmail.com", url);
+    console.log("return mail")
+    res.status(200);
+})
+
 AmqpService.connectAmqpServer();
 
 const PORT = process.env.PORT || 8080;
