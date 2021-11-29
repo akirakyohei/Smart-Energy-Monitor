@@ -3,7 +3,6 @@ const CustomerDetail = require("../entities/customer_detail");
 const AdminDetail = require("../entities/admin_detail");
 const UserDetail = require("../models/user_detail");
 const Role = require("../entities/role");
-const Image = require("../entities/image");
 const Permission = require("../entities/permission");
 const Resize = require("../services/resizeImg.service");
 const Constrants = require("../constrants/constrant");
@@ -12,7 +11,6 @@ const secretKey = require("../configs/auth.config").secret;
 const bcrypt = require("bcryptjs");
 const Aes = require("../helpers/aes.cipher.helper");
 const MailService = require("../services/mail.service");
-const fs = require("fs");
 
 exports.signupCustomer = async(req, res) => {
     User.init();
@@ -104,6 +102,74 @@ exports.signupCustomer = async(req, res) => {
     });
 };
 
+exports.signupEmployee = async(req, res) => {
+    User.init();
+    const user = new User();
+    user.username = req.body.username;
+    user.password = bcrypt.hashSync(req.body.password, 8);
+    user.email = req.body.email;
+    user.isAdmin = true;
+    user.status = true;
+
+    if (req.file != undefined) {
+        console.log(req.file);
+        var img = req.file.buffer;
+        console.log(img);
+        const fileUpload = new Resize();
+        const filename = await fileUpload.save(
+            img,
+            req.file.mimetype,
+            req.file.originalname
+        );
+
+        if (filename != null) {
+            user.image = result;
+        }
+    }
+    user.roleId = req.body.roleId;
+    user.save((err, user) => {
+        if (err) {
+            res.status(500).json({
+                success: false,
+                message: "Server error. Please try again.",
+                error: err.message,
+            });
+            return;
+        }
+        AdminDetail.init();
+        const adminDetail = new AdminDetail();
+
+        adminDetail.userId = user._id;
+        adminDetail.firstName = req.body.details.firstName;
+        adminDetail.lastName = req.body.details.lastName;
+        adminDetail.fullName = req.body.details.fullName;
+        adminDetail.phone = req.body.details.phone;
+        adminDetail.aera = req.body.details.aera;
+        adminDetail.birthday = req.body.details.birthday;
+        adminDetail
+            .save()
+            .then((newAdmin) => {
+                return res.status(201).json({
+                    success: true,
+                    message: "User created successfully",
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).json({
+                    success: false,
+                    message: "Server error. Please try again.",
+                    error: err.message,
+                });
+            });
+    });
+};
+
+
+
+
+
+
 exports.signin = (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
@@ -193,6 +259,10 @@ exports.signin = (req, res) => {
             return;
         });
 };
+
+
+
+
 
 exports.verify = (req, res) => {
 

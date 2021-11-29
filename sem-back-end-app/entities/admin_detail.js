@@ -20,6 +20,8 @@ mongoose.Promise = global.Promise;
  *                  type: string
  *              fullName:
  *                  type: string
+ *              phone:
+ *                  type: string
  *              address:
  *                  type: string
  *              birthday:
@@ -41,6 +43,7 @@ const adminDetailSchema = new mongoose.Schema({
     lastName: { type: String, required: true, maxLength: 10 },
     fullName: { type: String, required: true, maxLength: 30 },
     birthday: { type: Date },
+    phone: { type: String, maxlength: 10, minlength: 10 },
     aera: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Aera' }],
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }

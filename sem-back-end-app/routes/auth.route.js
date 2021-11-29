@@ -94,6 +94,91 @@ router.post('/signup-customer', [verifySignup.checkDuplicateUsernameOrEmail, upl
 
 /**
  * @swagger
+ * /api/auth/signup-employee:
+ *   post:
+ *     summary: 
+ *     tags: [Authentication]
+ *     description: "signup by customer without admin role"    
+ *     requestBody:
+ *          content:
+ *              multipart/form-data:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          username:
+ *                              type: string
+ *                          password:
+ *                              type: string
+ *                          email:
+ *                              type: string
+ *                          roleId:
+ *                              type: string
+ *                          image:
+ *                              type: string
+ *                              format: binary
+ *                          details:
+ *                              type: object
+ *                              properties:
+ *                                  firstName:
+ *                                      type: string
+ *                                  lastName:
+ *                                      type: string
+ *                                  fullName:
+ *                                      type: string
+ *                                  phone:
+ *                                      type: string
+ *                                  aera:
+ *                                      type: array
+ *                                      items:
+ *                                          type: string
+ *                                  birthday:
+ *                                      type: string
+ *                                      format: date
+ *     responses:
+ *       201:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                  success:
+ *                      type: boolean
+ *                  message:
+ *                      type: string
+ *       500:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          success:
+ *                              type: boolean
+ *                          message:
+ *                              type: string 
+ *                          err:
+ *                              type: string
+ *       404:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          success:
+ *                              type: boolean
+ *                          message:
+ *                              type: string 
+ * 
+ *                      
+ *                  
+ *                  
+ */
+
+router.post('/signup-employee', [verifySignup.checkDuplicateUsernameOrEmail, upload.single("image")], authController.signupEmployee);
+
+
+
+/**
+ * @swagger
  * /api/auth/signin:
  *   post:
  *     summary: 
