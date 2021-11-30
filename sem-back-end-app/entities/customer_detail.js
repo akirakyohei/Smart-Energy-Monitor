@@ -31,8 +31,6 @@ mongoose.Promise = global.Promise;
  *                  type: string
  *              birthday:
  *                  type: date
- *              activeKey:
- *                  type: string
  *              createdAt:
  *                  type: date
  *              updatedAt:
@@ -55,7 +53,6 @@ const customerDetailSchema = new mongoose.Schema({
     district: { type: String },
     village: { type: String },
     birthday: { type: Date, default: null },
-    activeKey: { type: String },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

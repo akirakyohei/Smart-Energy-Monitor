@@ -7,7 +7,7 @@ const Aera = require("../entities/area");
 const Unit = require("../entities/unit");
 
 const uuid = require("uuid");
-const Constrant = require("../constrants/constrant");
+const stateDeviceConstant = require("../constants/stateDevice.constant")
 exports.createDevice = async(req, res) => {
     let device = new Device({
         _id: ObjectId(),
@@ -94,7 +94,7 @@ exports.createDevice = async(req, res) => {
                             startMonth: req.body.startMonth,
                             location: req.body.location,
                             description: req.body.description,
-                            state: Constrant.stateDevice.DEVICE_SUCCESS,
+                            state: stateDeviceConstant.DEVICE_SUCCESS,
                             type: req.body.type,
                         });
 

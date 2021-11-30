@@ -7,7 +7,7 @@ mongoose.Promise = global.Promise;
  * @swagger
  * components:
  *  schemas:
- *      CustomerDetail:
+ *      AdminDetail:
  *          type: object
  *          properties:
  *              _id:

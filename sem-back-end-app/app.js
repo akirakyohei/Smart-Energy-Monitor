@@ -26,7 +26,7 @@ const user = require("./routes/user.route");
 
 const app = express();
 var corsOptions = {
-    origin: "http://localhost:3000"
+    origin: ["http://localhost:3000", "*"]
 };
 
 // const liveReloadServer = livereload.createServer();

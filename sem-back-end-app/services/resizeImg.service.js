@@ -24,14 +24,16 @@ class Resize {
             .update(filename + "-" + Date.now())
             .digest("base64");
         image.pic = final_img;
-        return await image.save((err, newImg) => {
-            if (err) {
-                console.log("save img fail");
-                return null;
-            }
+
+        try {
+
+            var newImg = await image.save();
             console.log("save img success");
             return newImg.name;
-        });
+        } catch (err) {
+            console.log("save img fail");
+            return null;
+        }
     }
 }
 
