@@ -16,8 +16,6 @@ mongoose.Promise = global.Promise;
  *                  type: objectId
  *              name:
  *                  type: string
- *              mqttId:
- *                  type: string
  *              token:
  *                  type: string
  *              createdAt:

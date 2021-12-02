@@ -27,8 +27,10 @@ mongoose.Promise = global.Promise;
  *                  type: mixed
  *              type:
  *                  type: string
+ *              active:
+ *                  type: boolean
  *              state:
- *                  type: number
+ *                  type: mixed
  *              createdAt:
  *                  type: date
  *              updatedAt:
@@ -48,7 +50,8 @@ const deviceDetailSchema = new mongoose.Schema({
     location: { type: mongoose.Schema.Types.Mixed },
     startMonth: { type: Date, required: true },
     description: { type: String, maxLength: 255 },
-    state: { type: Number },
+    state: { type: mongoose.Schema.Types.Mixed },
+    active: { type: Boolean },
     type: { type: String },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }

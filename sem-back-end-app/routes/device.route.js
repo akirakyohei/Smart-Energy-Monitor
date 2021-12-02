@@ -88,4 +88,121 @@ const deviceController = require('../controllers/device.controller');
  */
 router.post('/', deviceController.createDevice);
 
+
+/**
+ * @swagger
+ * /api/device:
+ *  get:
+ *      summary: 
+ *      tags: [Device]
+ *      parameters: [
+ *          {
+ *              name: perPage,
+ *              in: query,
+ *              type: string,
+ *              required: true
+ *          },
+ *          {
+ *              name: page,
+ *              in: query,
+ *              type: string,
+ *              required: true
+ *          }
+ *          ]
+ *
+ *      responses:
+ *          200:
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              success:
+ *                                  type: boolean
+ *                              message:
+ *                                  type: string
+ *                              data:
+ *                                  type: object
+ *                                  properties:
+ *                                      page:
+ *                                          type: number
+ *                                      pages:
+ *                                          type: number
+ *                                      perPage:
+ *                                          type: number
+ *                                      devices:
+ *                                          type: array
+ *                                          items:
+ *                                              type: object
+ *                                 
+ *          500:
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              success:
+ *                                  type: boolean
+ *                              message:
+ *                                  type: string 
+ *                              error:
+ *                                  type: string
+ * 
+ *                      
+ *                  
+ *                  
+ */
+router.get('/', deviceController.getDevicePaginate);
+
+/**
+ * @swagger
+ * /api/device/{id}:
+ *  get:
+ *      summary: 
+ *      tags: [Device]
+ *      parameters: [
+ *          {
+ *              name: id,
+ *              in: path,
+ *              type: string,
+ *              required: true
+ *          }
+ *          ]
+ *
+ *      responses:
+ *          200:
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              success:
+ *                                  type: boolean
+ *                              message:
+ *                                  type: string
+ *                              data:
+ *                                  type: object
+ *                                  properties:
+ *                                      devices:
+ *                                          type: object
+ *                                 
+ *          500:
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              success:
+ *                                  type: boolean
+ *                              message:
+ *                                  type: string 
+ *                              error:
+ *                                  type: string
+ * 
+ *                      
+ *                  
+ *                  
+ */
+router.get('/:id', deviceController.getDeviceDetail);
+
 module.exports = router;

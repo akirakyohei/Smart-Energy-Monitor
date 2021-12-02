@@ -225,6 +225,6 @@ exports.getEmployeeDetailById = async(req, res) => {
             address: adminDetail.address,
             birthday: adminDetail.birthday,
         }
-    })
+    });
 
 }
