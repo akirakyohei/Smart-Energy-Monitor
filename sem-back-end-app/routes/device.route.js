@@ -205,4 +205,60 @@ router.get('/', deviceController.getDevicePaginate);
  */
 router.get('/:id', deviceController.getDeviceDetail);
 
+
+/**
+ * @swagger
+ * /api/device/connection-log/{id}:
+ *  get:
+ *      summary: 
+ *      tags: [Device]
+ *      parameters: [
+ *          {
+ *              name: id,
+ *              in: path,
+ *              type: string,
+ *              required: true
+ *          }
+ *          ]
+ *
+ *      responses:
+ *          200:
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              success:
+ *                                  type: boolean
+ *                              message:
+ *                                  type: string
+ *                              data:
+ *                                  type: object
+ *                                  properties:
+ *                                      log:
+ *                                          type: array
+ *                                          items: 
+ *                                              type: object
+ *                                 
+ *          500:
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              success:
+ *                                  type: boolean
+ *                              message:
+ *                                  type: string 
+ *                              error:
+ *                                  type: string
+ * 
+ *                      
+ *                  
+ *                  
+ */
+router.get('/connection-log/:id', deviceController.getDeviceConnectionlog);
+
+
+
 module.exports = router;

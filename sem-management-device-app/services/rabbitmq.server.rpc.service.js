@@ -13,13 +13,13 @@ exports.amqpAddDevice = () => {
                 ch.consume(amqpConfig.device_queue_name, (msg) => {
                     console.log("process add device.");
                     var message = JSON.parse(msg.content);
-                    console.log(data);
                     var command = message.command;
                     var data = message.data;
+                    console.log(message);
                     var method = new Promise((resolve, reject) => {
                         return reject(new Error("haven't command."));
                     });
-
+                    console.log(command);
                     switch (command) {
                         case DeviceConstant.ADD_DEVICE:
                             method = IbmService.registerDevice(data);
@@ -46,9 +46,10 @@ exports.amqpAddDevice = () => {
 
                     method
                         .then((result) => {
-                            console.log(data);
-                            var outMessage = { success: true, data: data };
+                            console.log(result);
+                            var outMessage = { success: true, data: result };
                             var out = JSON.stringify(outMessage);
+                            console.log(out)
                             ch.sendToQueue(msg.properties.replyTo, Buffer.from(out, "utf8"), {
                                 correlationId: msg.properties.correlationId,
                             });

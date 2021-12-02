@@ -13,7 +13,7 @@ module.exports = AmqpService = class {
             .connect(host)
             .then((con) => con.createChannel())
             .then((ch) => {
-                ch.assertQueue(device_reply_queue_name, { durable: false }).then((replyque) => {
+                ch.assertQueue(reply_device_queue_name, { durable: false }).then((replyque) => {
 
                     ch.responseEmitter = new EventEmitter();
                     ch.responseEmitter.setMaxListeners(0);
@@ -25,6 +25,7 @@ module.exports = AmqpService = class {
 
 
     static sendMethodDevice = (command, data) => {
+        console.log(command);
         return new Promise((resolve) => {
             console.log("send")
             const correlationId = uuid.v4();
@@ -34,7 +35,9 @@ module.exports = AmqpService = class {
                 command: command,
                 data: data
             }
-            this.channel.sendToQueue(device_queue_name, Buffer.from(data, "utf-8"), { correlationId, replyTo: reply_device_queue_name })
+            console.log(message)
+            var messStr = JSON.stringify(message);
+            this.channel.sendToQueue(device_queue_name, Buffer.from(messStr, "utf-8"), { correlationId, replyTo: reply_device_queue_name })
             console.log("send")
         })
     }

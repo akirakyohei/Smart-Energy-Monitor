@@ -278,3 +278,51 @@ exports.getDeviceDetail = async(req, res) => {
 
 
 }
+
+exports.getDeviceConnectionlog = async(req, res) => {
+    var deviceId = req.params.id;
+
+    if (!ObjectId.isValid(deviceId)) {
+        return res.status(400).json({
+            success: false,
+            message: "get device connection log fail",
+            error: "deviceId is not a valid"
+        });
+    }
+
+    var dataS = {
+        deviceId: deviceId,
+    };
+    console.log(dataS);
+    AmqpService.sendGetDeviceConnectionLog(dataS)
+        .then((data) => {
+            console.log(data);
+            var d = JSON.parse(data);
+            console.log(d);
+            if (!d.success) {
+                res.status(500).json({
+                    success: false,
+                    message: "Server error. Please try again.",
+                    error: d.err,
+                });
+                return;
+            } else {
+                console.log(d.data);
+                return res.status(200).json({
+                    success: true,
+                    message: 'get connection log success',
+                    logs: d.data
+                });
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+                success: false,
+                message: "Server error. Please try again.",
+                error: err.message,
+            });
+        });
+
+
+}

@@ -1,4 +1,4 @@
-module.export = {
+module.exports = {
     ADD_DEVICE: "add_device",
     REMOVE_DEVICE: "remove_device",
     GET_DEVICE_CONNECTION_LOG: "device_connection_log",
