@@ -8,12 +8,12 @@
 #include <AutoConnect.h>
 #include <PubSubClient.h>
 #include <ESPAsyncTCP.h>
+#include <NTPClient.h>
+#include <WiFiUdp.h>
 #include <config.h>
 // #define BUFFER_LENGTH 1024
-#include <Wire.h>
 // const char* username="admin";
 // const char* password="admin";
-
 
 #define ORG "pcrea7"
 #define DEVICE_TYPE "monitor-device"
@@ -25,11 +25,14 @@ const char *eventTopic = "iot-2/evt/send_meter/fmt/json";
 const char *cmdTopic = "iot-2/cmd/command/fmt/json";
 // iot - 2 / cmd / command_id / fmt / format_string
 //const char fingerprint[] = "16:51:E3:C2:67:C6:AD:23:9C:1A:70:5C:22:A3:B8:C1:7B:7C:A6:1D";
-const char fingerprint[] = "53:48:03:C1:B1:57:48:02:5F:EF:D8:5C:66:66:75:FD:D7:BD:98:5F";
+// fingerprint .messaging.internetofthings.ibmcloud.com
+const char fingerprint[] = "B3:B7:C3:0D:9D:32:E6:A2:8A:FC:FD:BA:11:BB:05:5E:E1:D9:9E:F7";
 
 char server[] = ORG ".messaging.internetofthings.ibmcloud.com";
 char authMethod[] = "use-token-auth";
 bool stateMQTT = false;
+
+int currentHour = 0;
 
 // struct object
 struct AuthConfig
@@ -43,14 +46,27 @@ struct MQTTConfig
     String token;
 };
 
+struct EnergyMeter
+{
+    float reactivePower;
+    float activePower;
+    float voltage;
+    float invensity;
+};
+
 //variable webserver
 ESP8266WebServer Server(80);
 
 AutoConnect Portal(Server);
+
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP, "pool.ntp.org");
+
 //variable config
 AutoConnectConfig config;
 AuthConfig auth_config;
 MQTTConfig mqtt_config;
+EnergyMeter energyMeter;
 
 bool saveConfiguarationAuth(const AuthConfig &config);
 bool saveConfiguarationMQTT(const MQTTConfig &config);
@@ -443,6 +459,29 @@ void callback(char *topic, byte *payload, unsigned int lenght);
 PubSubClient client(server, 8883, callback, wifiClient);
 // WiFiClient wifiClient;
 
+float randomDataFloat(float value, int denta)
+{
+    if (denta > 100)
+        denta = 100;
+    if (denta < 0)
+        denta = 0;
+
+    randomSeed(millis());
+    int percent = random(0, denta * 10 + 1);
+    int operation = random(0, 2);
+    if (operation == 1)
+    {
+        value = value + percent * value / 1000;
+    }
+    else
+    {
+        value = value - percent * value / 1000;
+        if (value < 0)
+            return 0;
+    }
+    return value;
+}
+
 void get_sample()
 {
     // meterPowr.deviceId = deviceId;
@@ -451,15 +490,31 @@ void get_sample()
     // meterPower.voltage = payload.voltage;
     // meterPower.intensity = payload.intensity;
 
+    energyMeter.invensity = randomDataFloat(energyMeter.invensity, 2);
+    energyMeter.voltage = randomDataFloat(energyMeter.voltage, 3);
+    energyMeter.reactivePower = randomDataFloat(energyMeter.reactivePower, 2);
+    energyMeter.activePower= randomDataFloat(energyMeter.activePower,4);
+
     DynamicJsonDocument doc(1024);
-    doc["id"] = mqtt_config.device_id;
-    doc["rectivePower"] =9482;
-    doc["voltage"]=93483;
-    doc["invensity"]=58495;
-        String output;
+    doc["hour"] = currentHour;
+    doc["reactivePower"] = energyMeter.reactivePower;
+    doc["activePower"] = energyMeter.activePower;
+    doc["voltage"] = energyMeter.voltage;
+    doc["invensity"] = energyMeter.invensity;
+    String output;
     serializeJson(doc, output);
     Serial.println(output);
     client.publish(eventTopic, output.c_str());
+}
+
+void sendData()
+{
+    int tempHour = timeClient.getHours();
+    if (tempHour != currentHour)
+    {
+        get_sample();
+        currentHour = tempHour;
+    }
 }
 
 void callback(char *topic, byte *payload, unsigned int lenght)
@@ -497,7 +552,6 @@ void callback(char *topic, byte *payload, unsigned int lenght)
 void setup()
 {
     delay(6000);
-    Wire.begin(D1, D2);
     Serial.begin(9600);
     Serial.println();
     wifiClient.setFingerprint(fingerprint);
@@ -571,6 +625,16 @@ void setup()
         stateMQTT = false;
     }
 
+    energyMeter.reactivePower = 0.094;
+    energyMeter.voltage = 236.83;
+    energyMeter.invensity = 0.8;
+    energyMeter.activePower=0.176;
+
+    timeClient.begin();
+    timeClient.setTimeOffset(25200);
+    delay(1000);
+    timeClient.update();
+    currentHour = timeClient.getHours();
     Serial.println("looping");
 }
 
@@ -580,6 +644,8 @@ void loop()
     Portal.handleClient();
     Portal.handleRequest();
     MDNS.update();
+    timeClient.update();
+
     if (!client.loop() && stateMQTT)
     {
         char buffClientId[] = "d:" ORG ":" DEVICE_TYPE ":";
@@ -588,6 +654,7 @@ void loop()
         Serial.println(server);
         Serial.println((char *)(mqtt_config.token.c_str()));
         char *token = (char *)mqtt_config.token.c_str();
+        Serial.println(token);
         if (client.connect(clientId, authMethod, token))
         {
             // client.publish("outTopic", "hello world");
@@ -601,5 +668,6 @@ void loop()
         }
     }
 
+    sendData();
     delay(10);
 }
