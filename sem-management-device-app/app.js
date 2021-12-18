@@ -8,6 +8,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./configs/swagger.config');
 const ibmService = require('./services/ibm.service');
 const { amqpAddDevice } = require('./services/rabbitmq.server.rpc.service');
+const kue = require('kue');
 // const livereload = require('livereload');
 // const connectLiveReload = require('connect-livereload');
 
@@ -44,12 +45,19 @@ mongoose.connect(
 
 ibmService.connect();
 ibmService.handleDeviceEvents();
-
+ibmService.handleDeviceStatusEvents();
+ibmService.processAddMeter();
 
 // 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(kue.app);
 // 
 
+
+// var data = {
+//     deviceId: '619f5ac83bde5359dd798552'
+// }
+// ibmService.getDiagnosticLog(data);
 
 const PORT = process.env.PORT || 8081;
 

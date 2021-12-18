@@ -23,6 +23,7 @@
         "express-jwt": "^6.1.0",
         "ibmiotf": "^0.2.41",
         "jsonwebtoken": "^8.5.1",
+        "kue": "^0.11.6",
         "livereload": "^0.9.3",
         "mongoose": "^6.0.12",
         "morgan": "^1.10.0",

@@ -22,11 +22,11 @@ const unit = require("./routes/unit.route");
 const device = require("./routes/device.route");
 const image = require("./routes/image.route");
 const user = require("./routes/user.route");
-
+const meter = require("./routes/meterPower.route");
 
 const app = express();
 var corsOptions = {
-    origin: "http://localhost:3000"
+    origin: ["http://localhost:3000", "*"]
 };
 
 // const liveReloadServer = livereload.createServer();
@@ -65,6 +65,7 @@ app.use("/api/unit", [], unit);
 app.use("/api/device", [], device);
 app.use("/api/img", [], image);
 app.use("/api/user", [], user);
+app.use("/api/meter", [], meter);
 
 app.use("/api/mail", (req, res) => {
     var userInfo = {

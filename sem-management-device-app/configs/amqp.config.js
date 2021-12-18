@@ -1,4 +1,4 @@
 module.exports = {
     host: "amqp://localhost",
-    device_queue_name: "create_device_queue"
+    device_queue_name: "device_queue",
 }

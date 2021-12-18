@@ -5,7 +5,7 @@ const UserDetail = require("../models/user_detail");
 const Role = require("../entities/role");
 const Permission = require("../entities/permission");
 const Resize = require("../services/resizeImg.service");
-const Constrants = require("../constrants/constrant");
+const RoleConstant = require("../constants/role.constant.js");
 const jwtHelper = require("../helpers/jwtProvider.helper");
 const secretKey = require("../configs/auth.config").secret;
 const bcrypt = require("bcryptjs");
@@ -33,10 +33,10 @@ exports.signupCustomer = async(req, res) => {
         );
 
         if (filename != null) {
-            user.image = result;
+            user.image = filename;
         }
     }
-    Role.findOne({ name: Constrants.role.ROLE_USER }, (err, role) => {
+    Role.findOne({ name: RoleConstant.ROLE_USER }, (err, role) => {
         if (err) {
             res.status(500).json({
                 success: false,
@@ -57,19 +57,19 @@ exports.signupCustomer = async(req, res) => {
                 return;
             }
             CustomerDetail.init();
+            var details = JSON.parse(req.body.details);
             const customerDetail = new CustomerDetail();
 
             customerDetail.userId = user._id;
-            customerDetail.firstName = req.body.details.firstName;
-            customerDetail.lastName = req.body.details.lastName;
-            customerDetail.fullName = req.body.details.fullName;
-            customerDetail.phone = req.body.details.phone;
-            customerDetail.address = req.body.details.address;
-            customerDetail.province = req.body.details.province;
-            customerDetail.district = req.body.details.district;
-            customerDetail.village = req.body.details.village;
-            customerDetail.image = req.body.image;
-            customerDetail.birthday = req.body.details.birthday;
+            customerDetail.firstName = details.firstName;
+            customerDetail.lastName = details.lastName;
+            customerDetail.fullName = details.fullName;
+            customerDetail.phone = details.phone;
+            customerDetail.address = details.address;
+            customerDetail.province = details.province;
+            customerDetail.district = details.district;
+            customerDetail.village = details.village;
+            customerDetail.birthday = details.birthday;
 
             customerDetail
                 .save()
@@ -116,14 +116,15 @@ exports.signupEmployee = async(req, res) => {
         var img = req.file.buffer;
         console.log(img);
         const fileUpload = new Resize();
+        console.log("await");
         const filename = await fileUpload.save(
             img,
             req.file.mimetype,
             req.file.originalname
         );
-
+        console.log(filename);
         if (filename != null) {
-            user.image = result;
+            user.image = filename;
         }
     }
     user.roleId = req.body.roleId;
@@ -137,15 +138,16 @@ exports.signupEmployee = async(req, res) => {
             return;
         }
         AdminDetail.init();
+        var details = JSON.parse(req.body.details);
         const adminDetail = new AdminDetail();
 
         adminDetail.userId = user._id;
-        adminDetail.firstName = req.body.details.firstName;
-        adminDetail.lastName = req.body.details.lastName;
-        adminDetail.fullName = req.body.details.fullName;
-        adminDetail.phone = req.body.details.phone;
-        adminDetail.aera = req.body.details.aera;
-        adminDetail.birthday = req.body.details.birthday;
+        adminDetail.firstName = details.firstName;
+        adminDetail.lastName = details.lastName;
+        adminDetail.fullName = details.fullName;
+        adminDetail.phone = details.phone;
+        adminDetail.aera = details.aera;
+        adminDetail.birthday = details.birthday;
         adminDetail
             .save()
             .then((newAdmin) => {
