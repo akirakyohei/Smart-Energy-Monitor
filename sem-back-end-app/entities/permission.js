@@ -16,12 +16,6 @@ mongoose.Promise = global.Promise;
  *                  type: ObjectId
  *              description:
  *                  type: String
- *              status:
- *                  type: Boolean
- *              createdAt:
- *                  type: Date
- *              updatedAt:
- *                  type: Date
  *      
  */
 const permissionSchema = new mongoose.Schema({
@@ -32,9 +26,6 @@ const permissionSchema = new mongoose.Schema({
     },
     name: { type: String, unique: true, default: null, maxlength: 30 },
     description: { type: String, default: null, maxlength: 255 },
-    status: { type: Boolean, default: false },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
 });
 
 module.exports = Permission = mongoose.model('Permission', permissionSchema);

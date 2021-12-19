@@ -17,8 +17,6 @@ mongoose.Promise = global.Promise;
  *                  type: objectId
  *              unitId:
  *                  type: objectId
- *              name:
- *                  type: string
  *              address:
  *                  type: string
  *              description:
@@ -27,8 +25,6 @@ mongoose.Promise = global.Promise;
  *                  type: mixed
  *              type:
  *                  type: string
- *              active:
- *                  type: boolean
  *              state:
  *                  type: mixed
  *              createdAt:
@@ -48,10 +44,8 @@ const deviceDetailSchema = new mongoose.Schema({
     unitId: { type: mongoose.Schema.Types.ObjectId, ref: 'Unit' },
     address: { type: String, required: true, maxLength: 255 },
     location: { type: mongoose.Schema.Types.Mixed },
-    startMonth: { type: Date, required: true },
     description: { type: String, maxLength: 255 },
     state: { type: mongoose.Schema.Types.Mixed },
-    active: { type: Boolean },
     type: { type: String },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }

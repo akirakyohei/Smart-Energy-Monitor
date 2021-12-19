@@ -22,6 +22,10 @@ mongoose.Promise = global.Promise;
  *                  type: string
  *              email:
  *                  type: string
+ *              mobile:
+ *                  type: string
+ *              image:
+ *                  type: string
  *              isAdmin:
  *                  type: boolean
  *              status:
@@ -56,6 +60,7 @@ const userSchema = new mongoose.Schema({
         }
     },
     image: { type: String },
+    phone: { type: String, maxlength: 10, minlength: 10 },
     isAdmin: { type: Boolean, default: false },
     status: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now },

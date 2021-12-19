@@ -25,12 +25,8 @@ mongoose.Promise = global.Promise;
  *                  type: string
  *              village:
  *                  type: string
- *              phone:
- *                  type: string
  *              address:
  *                  type: string
- *              birthday:
- *                  type: date
  *              createdAt:
  *                  type: date
  *              updatedAt:
@@ -49,7 +45,6 @@ const customerDetailSchema = new mongoose.Schema({
     fullName: { type: String, default: null },
     address: { type: String, default: null },
     province: { type: String, default: null },
-    phone: { type: String },
     district: { type: String },
     village: { type: String },
     birthday: { type: Date, default: null },
