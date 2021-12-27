@@ -1,15 +1,7 @@
 .
 <template>
   <div class="container">
-    <div class="nav-left"></div>
-    <div class="nav-center"></div>
     <div class="nav">
-      <el-input
-        v-model="search"
-        size="medium"
-        placeholder="Enter to search ..."
-        style="float: center; width: 50%; margin-top: 15px; margin-left: 300px"
-      />
       <p
         style="
           float: right;
@@ -19,332 +11,261 @@
           margin-right: 20px;
         "
       >
-        Admin (Super)
+        Admin
       </p>
-      <!-- <i class="el-icon-caret-bottom" style="margin-right: -122px"> -->
-      <el-dropdown>
-        <i class="el-icon-caret-bottom" style="margin-right: -570px"></i>
-        <el-dropdown-menu slot="dropdown" style="margin-right: -590px">
-          <el-dropdown-item>View</el-dropdown-item>
-          <el-dropdown-item>Add</el-dropdown-item>
-          <el-dropdown-item>Delete</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-      <!-- </i> -->
-
+      <i class="el-icon-caret-bottom"></i>
       <el-avatar
         class="avata"
         src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
       ></el-avatar>
       <!-- {{admin.name}} -->
     </div>
-    <el-container>
-      <el-col :span="6">
-        <!-- <h5>Custom colors</h5> -->
-        <el-menu
-          default-active="2"
-          class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
-          background-color="#545c64"
-          text-color="#fff"
-          active-text-color="#ffd04b"
-          style="height: 100vh"
-        >
-          <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span class="main_title">Manage</span>
-            </template>
-            <el-menu-item-group title="Manage account & embedd">
-              <!-- cập nhật tài khoản  -->
-              <el-menu-item index="1-1">Admin Profile</el-menu-item>
-              
-
-              <el-menu-item index="1-2" @click="dialogTableEmbedd = true"
-                >Device Embedd
-                <el-dialog :visible.sync="dialogTableEmbedd">
-                  <el-table
-                    :data="
-                      tableEmbedd.filter(
-                        (data) =>
-                          !search ||
-                          data.name.toLowerCase().includes(search.toLowerCase())
-                      )
-                    "
-                    style="width: 100%"
-                  >
-                    <el-table-column label="Name" prop="name">
-                    </el-table-column>
-                    <el-table-column label="Image" prop="image">
-                    </el-table-column>
-                    <el-table-column label="Description" prop="description">
-                    </el-table-column>
-
-                    <el-table-column align="right">
-                      <template slot="header">
-                        <el-input
-                          v-model="search"
-                          size="mini"
-                          placeholder="Type to search"
-                        />
-                      </template>
-                      <template slot-scope="scope">
-                        <el-button
-                          size="mini"
-                          @click="handleEdit(scope.$index, scope.row)"
-                          >Edit</el-button
-                        >
-                        <el-button
-                          size="mini"
-                          type="danger"
-                          @click="handleDelete(scope.$index, scope.row)"
-                          >Delete</el-button
-                        >
-                      </template>
-                    </el-table-column>
-                  </el-table>
-                </el-dialog>
-              </el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="Manage Users & Permissions">
-              <el-submenu index="1-3">
-                <template slot="title">Permissions </template>
-                <el-menu-item index="1-3">Bắc Từ Liêm</el-menu-item>
-                <el-menu-item index="1-3">Nam Từ Liêm</el-menu-item>
-                <el-menu-item index="1-3-3">Hai Bà Trưng</el-menu-item>
-                <el-menu-item index="1-3-4">Hoàng Mai</el-menu-item>
-              </el-submenu>
-              <el-submenu index="1-4">
-                <template slot="title">Users</template>
-                <el-menu-item index="1-4"
-                  ><span
-                    class="demonstration"
-                    @click="dialogTableVisible = true"
-                    >User</span
-                  >
-                  <el-dialog>
-                    <template slot="scope">
-                      <el-table :data="tableData" style="width: 100%">
-                        <el-table-column
-                          fixed
-                          prop="date"
-                          label="Date"
-                          width="150"
-                        >
-                        </el-table-column>
-                        <el-table-column prop="name" label="Name" width="120">
-                        </el-table-column>
-                        <el-table-column prop="state" label="State" width="120">
-                        </el-table-column>
-                        <el-table-column prop="city" label="City" width="120">
-                        </el-table-column>
-                        <el-table-column
-                          prop="address"
-                          label="Address"
-                          width="300"
-                        >
-                        </el-table-column>
-                        <el-table-column prop="zip" label="Zip" width="120">
-                        </el-table-column>
-                        <el-table-column
-                          fixed="right"
-                          label="Operations"
-                          width="120"
-                        >
-                          <template slot="scope">
-                            <el-button
-                              @click="handleClick"
-                              type="text"
-                              size="small"
-                              >Detail</el-button
-                            >
-                            <el-button type="text" size="small">Edit</el-button>
-                          </template>
-                        </el-table-column>
-                      </el-table>
-                    </template>
-                  </el-dialog>
-                </el-menu-item>
-              </el-submenu>
-            </el-menu-item-group>
-            <el-submenu index="1-4">
-              <template slot="title">VN electricity price list</template>
-              <el-menu-item index="1-4-1">
-                <span @click="dialogTableElecVisible = true"
-                  >Electricity price</span
+    <el-col :span="6">
+      <!-- <h5>Custom colors</h5> -->
+      <el-menu
+        default-active="2"
+        class="el-menu-vertical-demo"
+        @open="handleOpen"
+        @close="handleClose"
+        background-color="#545c64"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+        style="height: 100vh"
+      >
+        <el-submenu index="1">
+          <template slot="title">
+            <i class="el-icon-location"></i>
+            <span class="main_title">Manage</span>
+          </template>
+          <el-menu-item-group title="Manage account & embedd">
+            <el-menu-item index="1-1">Account</el-menu-item>
+            <el-menu-item index="1-2">Device Embedd</el-menu-item>
+          </el-menu-item-group>
+          <el-menu-item-group title="Manage Users">
+            <el-submenu index="1-3">
+              <template slot="title">Users</template>
+              <el-menu-item index="1-3"
+                ><span class="demonstration" @click="dialogTableVisible = true"
+                  >User</span
                 >
-                <el-dialog :visible.sync="dialogTableElecVisible">
-                  <h1>Bậc giá bán lẻ điện sinh hoạt</h1>
-                  <template>
-                    <el-table :data="tableElec" style="width: 100%">
-                      <el-table-column prop="bac" label="Bậc" width="50">
-                      </el-table-column>
+                <el-dialog>
+                  <template slot="scope">
+                    <el-table :data="tableData" style="width: 100%">
                       <el-table-column
-                        prop="tieu_thu"
-                        label="Tiêu Thụ (kWh)"
-                        width="180"
+                        fixed
+                        prop="date"
+                        label="Date"
+                        width="150"
                       >
                       </el-table-column>
-                      <el-table-column prop="gia" label="Giá (Đồng/kWh)">
+                      <el-table-column prop="name" label="Name" width="120">
                       </el-table-column>
-                      <el-table-column prop="gia_cu" label="Giá Cũ (Đồng/kWh)">
+                      <el-table-column prop="state" label="State" width="120">
+                      </el-table-column>
+                      <el-table-column prop="city" label="City" width="120">
+                      </el-table-column>
+                      <el-table-column
+                        prop="address"
+                        label="Address"
+                        width="300"
+                      >
+                      </el-table-column>
+                      <el-table-column prop="zip" label="Zip" width="120">
+                      </el-table-column>
+                      <el-table-column
+                        fixed="right"
+                        label="Operations"
+                        width="120"
+                      >
+                        <template slot="scope">
+                          <el-button
+                            @click="handleClick"
+                            type="text"
+                            size="small"
+                            >Detail</el-button
+                          >
+                          <el-button type="text" size="small">Edit</el-button>
+                        </template>
                       </el-table-column>
                     </el-table>
                   </template>
                 </el-dialog>
               </el-menu-item>
-              <el-menu-item index="1-4-2">
-                <a
-                  href="https://sunemit.com/gia-ban-le-dien-sinh-hoat-cua-evn-moi-nhat/"
-                  target="_blank"
-                  >Explore more</a
-                >
-              </el-menu-item>
             </el-submenu>
-          </el-submenu>
-          <el-menu-item index="2">
-            <span class="main_title" @click="dialogTableVisible = true"
-              ><i class="el-icon-menu"></i>Customers's information</span
-            >
-            <!-- <i class="el-icon-menu"></i> -->
-            <!--           <i class="el-icon-menu"></i>
-          <span>Navigator Two</span> -->
-            <!-- <el-popover placement="right" width="100vh" trigger="click" offset="200 200 40 400"> -->
-            <!--          <i class="el-icon-menu"></i>
-            <span>Navigator Two</span> -->
-            <el-dialog
-              title="Shipping address"
-              class="outD"
-              :visible.sync="dialogTableVisible"
-            >
-              <el-table
-                :data="gridData"
-                stripe
-                class="tableData"
-                style="height: 100vh; width: 100vh"
+          </el-menu-item-group>
+          <el-submenu index="1-4">
+            <template slot="title">VN electricity price list</template>
+            <el-menu-item index="1-4-1">
+              <span @click="dialogTableElecVisible = true"
+                >Electricity price</span
               >
-                <el-table-column
-                  width="50"
-                  property="id"
-                  label="ID"
-                ></el-table-column>
-                <el-table-column
-                  width="100"
-                  property="first_name"
-                  label="First Name"
-                ></el-table-column>
-                <el-table-column
-                  width="100"
-                  property="last_name"
-                  label="Last Name"
-                ></el-table-column>
-                <el-table-column
-                  width="200"
-                  property="full_name"
-                  label="Full Name"
-                ></el-table-column>
-                <el-table-column
-                  width="250"
-                  property="address"
-                  label="Address"
-                ></el-table-column>
-                <el-table-column
-                  width="250"
-                  property="province"
-                  label="Province"
-                ></el-table-column>
-                <el-table-column
-                  width="300"
-                  property="email"
-                  label="Email"
-                ></el-table-column>
-                <el-table-column
-                  width="100"
-                  property="mobile"
-                  label="Mobile"
-                ></el-table-column>
-                <el-table-column
-                  width="200"
-                  property="district"
-                  label="District"
-                ></el-table-column>
-                <el-table-column
-                  width="200"
-                  property="village"
-                  label="Village"
-                ></el-table-column>
-                <el-table-column
-                  width="150"
-                  property="image"
-                  label="Image"
-                ></el-table-column>
-                <el-table-column
-                  width="150"
-                  property="birth_day"
-                  label="Birth Day"
-                ></el-table-column>
-                <el-table-column
-                  width="200"
-                  property="created_at"
-                  label="Created At"
-                ></el-table-column>
-                <el-table-column
-                  width="200"
-                  property="updated_at"
-                  label="Updated At"
-                ></el-table-column>
-                <el-table-column
-                  width="150"
-                  property="active_key"
-                  label="Active Key"
-                ></el-table-column>
-              </el-table>
-              <!-- <span slot="reference">Navigator Two</span> -->
-              <!-- <el-button slot="reference">Click to activate</el-button> -->
-              <!-- <span class="main_title"
+              <el-dialog :visible.sync="dialogTableElecVisible">
+                <h1>Bậc giá bán lẻ điện sinh hoạt</h1>
+                <template>
+                  <el-table :data="tableElec" style="width: 100%">
+                    <el-table-column prop="bac" label="Bậc" width="50">
+                    </el-table-column>
+                    <el-table-column
+                      prop="tieu_thu"
+                      label="Tiêu Thụ (kWh)"
+                      width="180"
+                    >
+                    </el-table-column>
+                    <el-table-column prop="gia" label="Giá (Đồng/kWh)">
+                    </el-table-column>
+                    <el-table-column prop="gia_cu" label="Giá Cũ (Đồng/kWh)">
+                    </el-table-column>
+                  </el-table>
+                </template>
+              </el-dialog>
+            </el-menu-item>
+            <el-menu-item index="1-4-2">
+              <a href="https://sunemit.com/gia-ban-le-dien-sinh-hoat-cua-evn-moi-nhat/" target="_blank">Explore more</a>
+            </el-menu-item>
+          </el-submenu>
+        </el-submenu>
+        <el-menu-item index="2">
+          <span class="main_title" @click="dialogTableVisible = true"
+            ><i class="el-icon-menu"></i>Customers's information</span
+          >
+          <!-- <i class="el-icon-menu"></i> -->
+          <!--           <i class="el-icon-menu"></i>
+          <span>Navigator Two</span> -->
+          <!-- <el-popover placement="right" width="100vh" trigger="click" offset="200 200 40 400"> -->
+          <!--          <i class="el-icon-menu"></i>
+            <span>Navigator Two</span> -->
+          <el-dialog
+            title="Shipping address"
+            class="outD"
+            :visible.sync="dialogTableVisible"
+          >
+            <el-table
+              :data="gridData"
+              stripe
+              class="tableData"
+              style="height: 100vh; width: 100vh"
+            >
+              <el-table-column
+                width="50"
+                property="id"
+                label="ID"
+              ></el-table-column>
+              <el-table-column
+                width="100"
+                property="first_name"
+                label="First Name"
+              ></el-table-column>
+              <el-table-column
+                width="100"
+                property="last_name"
+                label="Last Name"
+              ></el-table-column>
+              <el-table-column
+                width="200"
+                property="full_name"
+                label="Full Name"
+              ></el-table-column>
+              <el-table-column
+                width="250"
+                property="address"
+                label="Address"
+              ></el-table-column>
+              <el-table-column
+                width="250"
+                property="province"
+                label="Province"
+              ></el-table-column>
+              <el-table-column
+                width="300"
+                property="email"
+                label="Email"
+              ></el-table-column>
+              <el-table-column
+                width="100"
+                property="mobile"
+                label="Mobile"
+              ></el-table-column>
+              <el-table-column
+                width="200"
+                property="district"
+                label="District"
+              ></el-table-column>
+              <el-table-column
+                width="200"
+                property="village"
+                label="Village"
+              ></el-table-column>
+              <el-table-column
+                width="150"
+                property="image"
+                label="Image"
+              ></el-table-column>
+              <el-table-column
+                width="150"
+                property="birth_day"
+                label="Birth Day"
+              ></el-table-column>
+              <el-table-column
+                width="200"
+                property="created_at"
+                label="Created At"
+              ></el-table-column>
+              <el-table-column
+                width="200"
+                property="updated_at"
+                label="Updated At"
+              ></el-table-column>
+              <el-table-column
+                width="150"
+                property="active_key"
+                label="Active Key"
+              ></el-table-column>
+            </el-table>
+            <!-- <span slot="reference">Navigator Two</span> -->
+            <!-- <el-button slot="reference">Click to activate</el-button> -->
+            <!-- <span class="main_title"
               ><i class="el-icon-menu"></i>Customers's information</span
             > -->
-            </el-dialog>
-            <!-- </el-popover> -->
-          </el-menu-item>
-          <el-menu-item index="3" class="main_title">
-            <i class="el-icon-document"></i>
-            <span>Customer's reviews</span>
-          </el-menu-item>
-          <el-menu-item>
-            <!-- <span class="demonstration">click to trigger</span> -->
-            <el-dropdown trigger="click">
-              <span class="el-dropdown-link">
-                <i class="el-icon-arrow-right"></i>
-              </span>
-              <el-dropdown-menu slot="dropdown" placement="bottom-end">
-                <el-table :data="tableData" style="width: 100%">
-                  <el-table-column fixed prop="date" label="Date" width="150">
-                  </el-table-column>
-                  <el-table-column prop="name" label="Name" width="120">
-                  </el-table-column>
-                  <el-table-column prop="state" label="State" width="120">
-                  </el-table-column>
-                  <el-table-column prop="city" label="City" width="120">
-                  </el-table-column>
-                  <el-table-column prop="address" label="Address" width="300">
-                  </el-table-column>
-                  <el-table-column prop="zip" label="Zip" width="120">
-                  </el-table-column>
-                  <el-table-column fixed="right" label="Operations" width="120">
-                    <template slot="scope">
-                      <el-button @click="handleClick" type="text" size="small"
-                        >Detail</el-button
-                      >
-                      <el-button type="text" size="small">Edit</el-button>
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </el-menu-item>
-          <!-- <el-menu-item>
+          </el-dialog>
+          <!-- </el-popover> -->
+        </el-menu-item>
+        <el-menu-item index="3" class="main_title">
+          <i class="el-icon-document"></i>
+          <span>Customer's reviews</span>
+        </el-menu-item>
+        <el-menu-item>
+          <span class="demonstration">click to trigger</span>
+          <el-dropdown trigger="click">
+            <span class="el-dropdown-link">
+              <i class="el-icon-arrow-right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown" placement="bottom-end">
+              <el-table :data="tableData" style="width: 100%">
+                <el-table-column fixed prop="date" label="Date" width="150">
+                </el-table-column>
+                <el-table-column prop="name" label="Name" width="120">
+                </el-table-column>
+                <el-table-column prop="state" label="State" width="120">
+                </el-table-column>
+                <el-table-column prop="city" label="City" width="120">
+                </el-table-column>
+                <el-table-column prop="address" label="Address" width="300">
+                </el-table-column>
+                <el-table-column prop="zip" label="Zip" width="120">
+                </el-table-column>
+                <el-table-column fixed="right" label="Operations" width="120">
+                  <template slot="scope">
+                    <el-button @click="handleClick" type="text" size="small"
+                      >Detail</el-button
+                    >
+                    <el-button type="text" size="small">Edit</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </el-menu-item>
+        <!-- <el-menu-item>
           <el-button type="text" @click="dialogTableVisible = true"
             >open a Table nested Dialog</el-button
           >
@@ -396,23 +317,12 @@
             </el-table>
           </el-dialog>
         </el-menu-item> -->
-          <!-- <el-menu-item index="4" disabled>
+        <!-- <el-menu-item index="4" disabled>
           <i class="el-icon-setting"></i>
           <span>Navigator Four</span>
         </el-menu-item> -->
-        </el-menu>
-      </el-col>
-       <el-main>
-      <el-table :data="tableData">
-        <el-table-column prop="date" label="Date" width="140">
-        </el-table-column>
-        <el-table-column prop="name" label="Name" width="120">
-        </el-table-column>
-        <el-table-column prop="address" label="Address">
-        </el-table-column>
-      </el-table>
-    </el-main>
-    </el-container>
+      </el-menu>
+    </el-col>
   </div>
 </template>
 
@@ -566,34 +476,9 @@ export default {
           tieu_thu: "Lớn hơn từ 401",
         },
       ],
-      tableEmbedd: [
-        {
-          
-          name: "Tom",
-          description: "No. 189, Grove St, Los Angeles",
-          image: 'https://picsum.photos/id/1005/600/200',
-        },
-        {
-          date: "2016-05-02",
-          name: "John",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-        {
-          date: "2016-05-04",
-          name: "Morgan",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-        {
-          date: "2016-05-01",
-          name: "Jessy",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-      ],
-      search: "",
       tabPosition: "left",
       dialogTableVisible: false,
       dialogTableElecVisible: false,
-      dialogTableEmbedd: false,
     };
   },
 };
@@ -627,11 +512,8 @@ export default {
   /* background: rgb(80, 74, 74); */
 }
 a {
-  color: rgb(219, 221, 255);
+    color: rgb(219, 221, 255);
 }
 .outD {
-}
-.nav-left {
-  float: left;
 }
 </style>
