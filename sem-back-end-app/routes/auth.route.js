@@ -6,7 +6,7 @@ const upload = require('../middlewares/uploadFile.middleware.js');
 
 /**
  * @swagger
- * /api/auth/signup-customer:
+ * /api/auth/create-customer:
  *   post:
  *     summary: 
  *     tags: [Authentication]
@@ -26,6 +26,8 @@ const upload = require('../middlewares/uploadFile.middleware.js');
  *                          image:
  *                              type: string
  *                              format: binary
+ *                          phone:
+ *                              type: string
  *                          details:
  *                              type: object
  *                              properties:
@@ -35,8 +37,6 @@ const upload = require('../middlewares/uploadFile.middleware.js');
  *                                      type: string
  *                                  fullName:
  *                                      type: string
- *                                  phone:
- *                                      type: string
  *                                  address:
  *                                      type: string
  *                                  province:
@@ -45,9 +45,6 @@ const upload = require('../middlewares/uploadFile.middleware.js');
  *                                      type: string
  *                                  village:
  *                                      type: string
- *                                  birthday:
- *                                      type: string
- *                                      format: date
  *     responses:
  *       201:
  *         content:
@@ -89,12 +86,12 @@ const upload = require('../middlewares/uploadFile.middleware.js');
 
 
 
-router.post('/signup-customer', [verifySignup.checkDuplicateUsernameOrEmail, upload.single("image")], authController.signupCustomer);
+router.post('/create-customer', [verifySignup.checkDuplicateUsernameOrEmail, upload.single("image")], authController.createCustomer);
 
 
 /**
  * @swagger
- * /api/auth/signup-employee:
+ * /api/auth/create-admin:
  *   post:
  *     summary: 
  *     tags: [Authentication]
@@ -116,6 +113,8 @@ router.post('/signup-customer', [verifySignup.checkDuplicateUsernameOrEmail, upl
  *                          image:
  *                              type: string
  *                              format: binary
+ *                          phone:
+ *                              type: string
  *                          details:
  *                              type: object
  *                              properties:
@@ -125,15 +124,10 @@ router.post('/signup-customer', [verifySignup.checkDuplicateUsernameOrEmail, upl
  *                                      type: string
  *                                  fullName:
  *                                      type: string
- *                                  phone:
- *                                      type: string
  *                                  aera:
  *                                      type: array
  *                                      items:
  *                                          type: string
- *                                  birthday:
- *                                      type: string
- *                                      format: date
  *     responses:
  *       201:
  *         content:
@@ -173,7 +167,7 @@ router.post('/signup-customer', [verifySignup.checkDuplicateUsernameOrEmail, upl
  *                  
  */
 
-router.post('/signup-employee', [verifySignup.checkDuplicateUsernameOrEmail, upload.single("image")], authController.signupEmployee);
+router.post('/create-admin', [verifySignup.checkDuplicateUsernameOrEmail, upload.single("image")], authController.createAdmin);
 
 
 
@@ -220,6 +214,8 @@ router.post('/signup-employee', [verifySignup.checkDuplicateUsernameOrEmail, upl
  *                              type: array
  *                              items:
  *                                  type: string
+ *                          image:
+ *                              type: string
  *                          accessToken:
  *                              type: string
  *       500:

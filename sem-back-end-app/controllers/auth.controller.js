@@ -12,7 +12,7 @@ const bcrypt = require("bcryptjs");
 const Aes = require("../helpers/aes.cipher.helper");
 const MailService = require("../services/mail.service");
 
-exports.signupCustomer = async(req, res) => {
+exports.createCustomer = async(req, res) => {
     User.init();
     const user = new User();
     user.username = req.body.username;
@@ -20,7 +20,7 @@ exports.signupCustomer = async(req, res) => {
     user.email = req.body.email;
     user.isAdmin = false;
     user.status = false;
-
+    user.phone = req.body.phone;
     if (req.file != undefined) {
         console.log(req.file);
         var img = req.file.buffer;
@@ -64,12 +64,10 @@ exports.signupCustomer = async(req, res) => {
             customerDetail.firstName = details.firstName;
             customerDetail.lastName = details.lastName;
             customerDetail.fullName = details.fullName;
-            customerDetail.phone = details.phone;
             customerDetail.address = details.address;
             customerDetail.province = details.province;
             customerDetail.district = details.district;
             customerDetail.village = details.village;
-            customerDetail.birthday = details.birthday;
 
             customerDetail
                 .save()
@@ -79,11 +77,11 @@ exports.signupCustomer = async(req, res) => {
                         date: Date.now(),
                     };
 
-                    var userInfoStr = JSON.stringify(userInfo);
-                    var cipherUser = Aes.encrypt(userInfoStr);
-                    const url = 'http://localhost:8080/api/auth/verify/' + encodeURI(cipherUser);
+                    // var userInfoStr = JSON.stringify(userInfo);
+                    // var cipherUser = Aes.encrypt(userInfoStr);
+                    // const url = 'http://localhost:8080/api/auth/verify/' + encodeURI(cipherUser);
 
-                    MailService.sendMailVerify(user.email, url);
+                    // MailService.sendMailVerify(user.email, url);
 
                     return res.status(201).json({
                         success: true,
@@ -102,15 +100,15 @@ exports.signupCustomer = async(req, res) => {
     });
 };
 
-exports.signupEmployee = async(req, res) => {
+exports.createAdmin = async(req, res) => {
     User.init();
     const user = new User();
     user.username = req.body.username;
-    user.password = bcrypt.hashSync(req.body.password, 8);
+    user.password = bcrypt.hashSync(req.body.email, 8);
     user.email = req.body.email;
     user.isAdmin = true;
-    user.status = true;
-
+    user.status = false;
+    user.phone = req.body.phone;
     if (req.file != undefined) {
         console.log(req.file);
         var img = req.file.buffer;
@@ -145,9 +143,7 @@ exports.signupEmployee = async(req, res) => {
         adminDetail.firstName = details.firstName;
         adminDetail.lastName = details.lastName;
         adminDetail.fullName = details.fullName;
-        adminDetail.phone = details.phone;
         adminDetail.aera = details.aera;
-        adminDetail.birthday = details.birthday;
         adminDetail
             .save()
             .then((newAdmin) => {
@@ -190,6 +186,7 @@ exports.signin = (req, res) => {
             userDetail._id = user._id;
             userDetail.username = user.username;
             userDetail.email = user.email;
+            userDetail.image = user.image ? user.image : null;
 
             Role.findById(user.roleId, "name permission", function(err, role) {
                 if (err) {

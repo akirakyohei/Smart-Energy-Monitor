@@ -8,8 +8,7 @@ exports.createPermission = function(req, res) {
     let permission = new Permission({
         _id: mongoose.Types.ObjectId(),
         name: req.body.name,
-        description: req.body.description,
-        status: true
+        description: req.body.description
     });
 
     return permission.save().then((newPermission) => {

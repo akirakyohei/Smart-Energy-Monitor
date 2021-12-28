@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="address=no" />
+    <meta name="format-detection" content="email=no" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="supported-color-schemes" content="light dark" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" th:ref="stylesheet" href="../static/css/template-verification-email.css" th:href="@{css/template-verification-email.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+
+</head>
+
+<body class="bg-white">
+    <style>
+        .bg-payment {
+            background: #f0d7ea;
+        }
+        
+        .title-company {
+            color: black;
+            letter-spacing: 4px;
+            font-weight: 500;
+            font-family: none;
+        }
+        
+        .title-dot-com {
+            color: coral;
+        }
+        
+        .bg-violet {
+            background: #AB10CE;
+            background: -moz-linear-gradient(-45deg, #AB10CE 0%, #DA19AE 80%, #C59237 100%);
+            background: -webkit-linear-gradient(-45deg, #AB10CE 0%, #DA19AE 80%, #C59237 100%);
+            background: linear-gradient(135deg, #AB10CE 0%, #DA19AE 80%, #C59237 100%);
+            color: white !important;
+        }
+        
+        .bg-contact {
+            background: #DA19AE;
+            background: -moz-linear-gradient(-45deg, #DA19AE 40%, #C59237 100%);
+            background: -webkit-linear-gradient(-45deg, #DA19AE 40%, #C59237 100%);
+            background: linear-gradient(135deg, #DA19AE 40%, #C59237 100%);
+            color: white !important;
+        }
+        
+        .bg-confirm {
+            background: rgba(247, 244, 110, 0.98);
+            color: blueviolet;
+        }
+        
+        .verify-wrap {
+            -webkit-box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.37);
+            box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.37);
+            -webkit-border-radius: 7px;
+            -moz-border-radius: 7px;
+            border-radius: 7px;
+        }
+        
+        .cross-vertical {
+            width: 100%;
+            height: 2px;
+            background: white;
+        }
+        
+        .copyright {
+            background: blueviolet;
+            color: white;
+            font-size: 10px;
+        }
+        
+        .bg-white {
+            background: white !important;
+        }
+        
+        a {
+            text-decoration: none;
+            color: white;
+        }
+        
+        a:hover {
+            text-decoration: none;
+            color: #f6ceb9;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            /* Your dark mode styles: */
+            body {
+                background: white;
+                color: #000;
+            }
+            .bg-white {
+                background: white !important;
+                color: #000;
+            }
+        }
+        
+        .title-info {
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .title-info span {
+            font-weight: 400;
+        }
+        
+        .bg-white-x {
+            background: white;
+        }
+    </style>
+    <div class="container-fluid vh-100 vw-100">
+        <div class="row justify-content-center py-2 ">
+            <div class="col-8 verify-wrap px-0 d-flex flex-column bg-payment h-100" style="max-width: 25em;">
+                <div class="d-flex bg-white-x justify-content-center">
+                    <div>
+                        <h3 class="title-company">Điện lực Hà Nội</h3>
+                        <h3 class="">Khu vực
+                            <%=aeraName%>
+                        </h3>
+                    </div>
+                </div>
+                <div class="ps-1 py-4 d-flex justify-content-center flex-column ">
+                    <div class="title-info">Tên khách hàng: <span class="ps-2"><%= fullName %></span></div>
+                    <div class="title-info">Địa chỉ: <span class="ps-2"><%= address%> - <%= village%> <%=district%> - <%=province%></span></div>
+                    <div class="title-info">Số điện thoại: <span class="ps-2"><%= phone %></span></div>
+                    <div class="title-info">Email:<span class="ps-2"><%=email%></span></div>
+                    <div class="title-info">Số công tơ:<span class="ps-2"><%=deviceName%></span></div>
+                    <div class="title-info">Mã giá KT: <span class="ps-2"><%=unitName%></span></div>
+                    <div class="title-info">ID hoá đơn: <span class="ps-2"><%=paymentId%></span></div>
+                    <div class="title-info">Nội dung: <span class="ps-2"><%=content%></span></div>
+                    <div class="title-info">Điện năng tiêu thụ: <span class="ps-2"><%=power%> (kwh)</span></div>
+                </div>
+                <div class="py-4 border-top border-bottom mx-1 border-white">
+                    <div style="font-weight:600;">Tiền điện</div>
+                    <table class="w-100">
+                        <% payDetail.forEach((item)=>{%>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <%=item.level%>
+                                </td>
+                                <td>x</td>
+                                <td>
+                                    <%=item.unit%>
+                                </td>
+                                <td>=</td>
+                                <td>
+                                    <%=item.price%>
+                                </td>
+                            </tr>
+
+                            <% });%>
+                                <tr>
+                                    <td style="font-size:12px;">Cộng:</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <%=sum%> (đ)</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size:12px;">Tiền thuế (VAT 10%):</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <%=tax%> (đ)</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size:12px;">Tổng tiền:</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <%=total%> (đ)</td>
+                                </tr>
+                    </table>
+                    <div class="mt-2 border-top border-white">
+                        Bằng chữ: <span style="font-size:15px">
+                           <%=totalBywords%>
+                        </span>
+                    </div>
+                </div>
+                <div class="py-4">
+                    <table class="w-100" style="font-size:14px">
+                        <tr>
+                            <td>
+                                Nhân viên
+                            </td>
+                            <td>
+                                <%=exportBy%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Số điện thoại
+                            </td>
+                            <td>
+                                <%=exportPhone%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ngày tạo</td>
+                            <td>
+                                <%=exportDate%>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="text-center copyright">
+                    <div class="mt-auto"><small>Điện lực Việt Nam</small></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+
+</html>

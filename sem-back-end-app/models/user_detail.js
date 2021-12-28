@@ -16,10 +16,11 @@
  *      
  */
 let UserDetail = class {
-    constructor(id = "", username = "", email = "", role = "", permissions = []) {
+    constructor(id = "", username = "", email = "", role = "", image = "", permissions = []) {
         this._id = id,
             this.username = username,
             this.email = email,
+            this.image = image,
             this.role = role,
             this.permission = permissions
     }

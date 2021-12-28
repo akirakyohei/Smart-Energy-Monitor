@@ -12,7 +12,6 @@ exports.createDevice = async(req, res) => {
         _id: ObjectId(),
         name: req.body.name,
         userId: req.body.userId,
-        mqttID: "",
         token: "",
     });
 
@@ -90,10 +89,8 @@ exports.createDevice = async(req, res) => {
                             aeraId: req.body.aeraId,
                             unitId: req.body.unitId,
                             address: req.body.address,
-                            startMonth: req.body.startMonth,
                             location: req.body.location,
                             description: req.body.description,
-                            active: true,
                             type: req.body.type,
                         });
 
@@ -252,8 +249,6 @@ exports.getDeviceDetail = async(req, res) => {
             address: detail.address,
             location: detail.location,
             description: detail.description,
-            active: detail.active,
-            startMonth: detail.startMonth,
             type: detail.type,
             unit: detail.unit
 

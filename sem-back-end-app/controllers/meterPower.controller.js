@@ -10,11 +10,14 @@ exports.getMeterPowerByHour = async(req, res) => {
             success: false,
             message: "get mett power by hour fail",
             error: "deviceId is not valid",
-        })
+        });
     }
 
     try {
-        var listMeter = await MeterPower.find({ deviceId: deviceId, dateTime: { $gte: startTime, $lte: endTime } })
+        var listMeter = await MeterPower.find({
+                deviceId: deviceId,
+                dateTime: { $gte: startTime, $lte: endTime },
+            })
             .select("-_id dateTime activePower reactivePower voltage intensity")
             .sort({ dateTime: "asc" });
 
@@ -22,17 +25,18 @@ exports.getMeterPowerByHour = async(req, res) => {
             if (array[index + 1] === undefined) {
                 return;
             }
-            var milliseconds = array[index + 1].dateTime.getTime() - array[index].dateTime.getTime();
+            var milliseconds =
+                array[index + 1].dateTime.getTime() - array[index].dateTime.getTime();
             var hours = Math.ceil(milliseconds / (1000 * 60 * 60));
             if (!hours === 1) {
                 var date = new Date(arr[i].dateTime);
-                date.setHours(date.getHours() + 1)
+                date.setHours(date.getHours() + 1);
                 listMeter.splice(i + 1, 0, {
-                    "dateTime": date,
-                    "activePower": 0,
-                    "reactivePower": 0,
-                    "voltage": 0,
-                    "intensity": 0
+                    dateTime: date,
+                    activePower: 0,
+                    reactivePower: 0,
+                    voltage: 0,
+                    intensity: 0,
                 });
             }
         });
@@ -43,30 +47,33 @@ exports.getMeterPowerByHour = async(req, res) => {
 
             for (var i = 0; i < hours; i++) {
                 var date = new Date(listMeter[0].dateTime);
-                date.setHours(date.getHours() - 1)
+                date.setHours(date.getHours() - 1);
                 listMeter.unshift({
-                    "dateTime": date,
-                    "activePower": 0,
-                    "reactivePower": 0,
-                    "voltage": 0,
-                    "intensity": 0
+                    dateTime: date,
+                    activePower: 0,
+                    reactivePower: 0,
+                    voltage: 0,
+                    intensity: 0,
                 });
             }
         }
 
-        if (listMeter[listMeter.length - 1].dateTime.getTime() < endTime.getTime()) {
-            var milliseconds = endTime.getTime() - listMeter[listMeter.length - 1].dateTime.getTime();
+        if (
+            listMeter[listMeter.length - 1].dateTime.getTime() < endTime.getTime()
+        ) {
+            var milliseconds =
+                endTime.getTime() - listMeter[listMeter.length - 1].dateTime.getTime();
             var hours = Math.ceil(milliseconds / (1000 * 60 * 60));
 
             for (var i = 0; i < hours; i++) {
                 var date = new Date(listMeter[listMeter.length - 1].dateTime);
-                date.setHours(date.getHours() + 1)
+                date.setHours(date.getHours() + 1);
                 listMeter.push({
-                    "dateTime": date,
-                    "activePower": 0,
-                    "reactivePower": 0,
-                    "voltage": 0,
-                    "intensity": 0
+                    dateTime: date,
+                    activePower: 0,
+                    reactivePower: 0,
+                    voltage: 0,
+                    intensity: 0,
                 });
             }
         }
@@ -74,7 +81,7 @@ exports.getMeterPowerByHour = async(req, res) => {
         return res.status(200).json({
             success: true,
             message: "get meter power succes",
-            data: listMeter
+            data: listMeter,
         });
     } catch (err) {
         console.error(err);
@@ -84,11 +91,8 @@ exports.getMeterPowerByHour = async(req, res) => {
             error: err.message,
         });
         return;
-    };
-
-
-
-}
+    }
+};
 
 exports.getMeterPowerByDate = async(req, res) => {
     var deviceId = req.params.id;
@@ -104,57 +108,54 @@ exports.getMeterPowerByDate = async(req, res) => {
 
     try {
         var pipeline = [{
-            '$match': {
-                'deviceId': new ObjectId('619f5ac83bde5359dd798552')
-            }
-        }, {
-            '$addFields': {
-                'date': {
-                    '$dateToString': {
-                        'format': '%Y-%m-%d',
-                        'date': '$dateTime'
-                    }
-                }
-            }
-        }, {
-            '$group': {
-                '_id': '$date',
-                'totalActivePower': {
-                    '$sum': '$activePower'
+                $match: {
+                    deviceId: new ObjectId(deviceId),
                 },
-                'totalReactivePower': {
-                    '$sum': '$reactivePower'
+            },
+            {
+                $addFields: {
+                    date: {
+                        $dateToString: {
+                            format: "%Y-%m-%d",
+                            date: "$dateTime",
+                        },
+                    },
                 },
-                'totalIntensity': {
-                    '$sum': '$intensity'
-                }
-            }
-        }, {
-            '$project': {
-                'date': {
-                    '$dateFromString': {
-                        'dateString': '$_id'
-                    }
+            },
+            {
+                $group: {
+                    _id: "$date",
+                    totalActivePower: {
+                        $sum: "$activePower",
+                    },
+                    totalReactivePower: {
+                        $sum: "$reactivePower",
+                    },
+                    totalIntensity: {
+                        $sum: "$intensity",
+                    },
                 },
-                'totalActivePower': {
-                    '$round': [
-                        '$totalActivePower', 3
-                    ]
+            },
+            {
+                $project: {
+                    date: {
+                        $dateFromString: {
+                            dateString: "$_id",
+                        },
+                    },
+                    totalActivePower: {
+                        $round: ["$totalActivePower", 3],
+                    },
+                    totalReactivePower: {
+                        $round: ["$totalReactivePower", 3],
+                    },
+                    totalIntensity: {
+                        $round: ["$totalIntensity", 3],
+                    },
+                    _id: 0,
                 },
-                'totalReactivePower': {
-                    '$round': [
-                        '$totalReactivePower', 3
-                    ]
-                },
-                'totalIntensity': {
-                    '$round': [
-                        '$totalIntensity', 3
-                    ]
-                },
-                '_id': 0
-            }
-        }]
-
+            },
+        ];
 
         MeterPower.aggregate(pipeline).exec((err, listMeter) => {
             if (err) {
@@ -165,17 +166,18 @@ exports.getMeterPowerByDate = async(req, res) => {
                 if (array[index + 1] === undefined) {
                     return;
                 }
-                var milliseconds = array[index + 1].date.getTime() - array[index].date.getTime();
+                var milliseconds =
+                    array[index + 1].date.getTime() - array[index].date.getTime();
                 var days = Math.ceil(milliseconds / (1000 * 60 * 60 * 24));
                 if (!days === 1) {
                     var date = new Date(arr[i].date);
-                    date.setDate(date.getDate() + 1)
+                    date.setDate(date.getDate() + 1);
                     listMeter.splice(i + 1, 0, {
-                        "date": date,
-                        "activePower": 0,
-                        "reactivePower": 0,
-                        "voltage": 0,
-                        "intensity": 0
+                        date: date,
+                        activePower: 0,
+                        reactivePower: 0,
+                        voltage: 0,
+                        intensity: 0,
                     });
                 }
             });
@@ -186,42 +188,41 @@ exports.getMeterPowerByDate = async(req, res) => {
 
                 for (var i = 0; i < days; i++) {
                     var date = new Date(listMeter[0].date);
-                    date.setDate(date.getDate() - 1)
+                    date.setDate(date.getDate() - 1);
                     listMeter.unshift({
-                        "date": date,
-                        "activePower": 0,
-                        "reactivePower": 0,
-                        "voltage": 0,
-                        "intensity": 0
+                        date: date,
+                        activePower: 0,
+                        reactivePower: 0,
+                        voltage: 0,
+                        intensity: 0,
                     });
                 }
             }
 
             if (listMeter[listMeter.length - 1].date.getTime() < endTime.getTime()) {
-                var milliseconds = endTime.getTime() - listMeter[listMeter.length - 1].date.getTime();
+                var milliseconds =
+                    endTime.getTime() - listMeter[listMeter.length - 1].date.getTime();
                 var days = Math.ceil(milliseconds / (1000 * 60 * 60 * 24));
 
                 for (var i = 0; i < days; i++) {
                     var date = new Date(listMeter[listMeter.length - 1].date);
-                    date.setDate(date.getDate() + 1)
+                    date.setDate(date.getDate() + 1);
                     listMeter.push({
-                        "date": date,
-                        "activePower": 0,
-                        "reactivePower": 0,
-                        "voltage": 0,
-                        "intensity": 0
+                        date: date,
+                        activePower: 0,
+                        reactivePower: 0,
+                        voltage: 0,
+                        intensity: 0,
                     });
                 }
             }
 
-
             return res.status(200).json({
                 success: true,
                 message: "get meter power succes",
-                data: listMeter
+                data: listMeter,
             });
         });
-
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -230,6 +231,5 @@ exports.getMeterPowerByDate = async(req, res) => {
             error: err.message,
         });
         return;
-    };
-
-}
+    }
+};

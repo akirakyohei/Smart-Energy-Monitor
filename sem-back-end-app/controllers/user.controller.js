@@ -3,11 +3,13 @@ const CustomerDetail = require("../entities/customer_detail");
 const AdminDetail = require("../entities/admin_detail");
 const jwtHelper = require("../helpers/jwtProvider.helper");
 const ObjectId = require("mongoose").Types.ObjectId;
+const Resize = require("../services/resizeImg.service");
+const Image = require('../entities/image');
 exports.getUserDetail = async(req, res) => {
     const tokenFromClient = req.body.token || req.query.token || req.headers["x-access-token"];
     var userInfo = jwtHelper.decodeToken(tokenFromClient);
-    var isAdmin = await User.findById(userInfo._id).select('isAdmin');
-    if (isAdmin) {
+    var user = await User.findById(userInfo._id);
+    if (user.isAdmin) {
         var detail = await AdminDetail.find({ adminId: userInfo._id }).then((d) => {
             return d;
         }).catch((err) => {
@@ -20,6 +22,8 @@ exports.getUserDetail = async(req, res) => {
         });
         detail.email = userInfo.email;
         detail.username = userInfo.username;
+        detail.image = user.image;
+        detail.phone = user.phone;
 
         return res.status(200).json({
             success: true,
@@ -39,6 +43,8 @@ exports.getUserDetail = async(req, res) => {
         });
         detail.email = userInfo.email;
         detail.username = userInfo.username;
+        detail.image = user.image;
+        detail.phone = user.phone;
 
         return res.status(200).json({
             success: true,
@@ -46,6 +52,131 @@ exports.getUserDetail = async(req, res) => {
             data: detail
         });
     }
+
+}
+
+exports.updateAccount = async(req, res) => {
+    const tokenFromClient = req.body.token || req.query.token || req.headers["x-access-token"];
+    var userInfo = jwtHelper.decodeToken(tokenFromClient);
+    var user = await User.findById(userInfo._id);
+    if (req.file != undefined) {
+
+        Image.findOneAndDelete({ name: user.image });
+        console.log(req.file);
+        var img = req.file.buffer;
+        console.log(img);
+        const fileUpload = new Resize();
+        const filename = await fileUpload.save(
+            img,
+            req.file.mimetype,
+            req.file.originalname
+        );
+
+        if (filename != null) {
+            user.image = filename;
+        }
+        user.updated_at = Date.now;
+        var userRs = await user.save().then((d) => {
+            return d;
+        }).catch((err) => {
+            return res.status(500)
+                .json({
+                    success: false,
+                    message: "update account fail",
+                    error: err
+                })
+        });
+    }
+
+
+
+    if (user.isAdmin) {
+        var detail = await AdminDetail.find({ adminId: userInfo._id }).then((d) => {
+            return d;
+        }).catch((err) => {
+            return res.status(500)
+                .json({
+                    success: false,
+                    message: "get user details fail",
+                    error: err
+                })
+        });
+        if (req.body.firstName) {
+            detail.firstName = req.body.firstName;
+        }
+        if (req.body.lastName) {
+            detail.firstName = req.body.firstName;
+        }
+        if (req.body.fullName) {
+            detail.fullName = req.body.fullName;
+        }
+        detail.updatedAt = Date.now;
+        detail.save().then((result) => {
+            return res.status(200).json({
+                success: true,
+                message: "update account success"
+            });
+        }).catch((err) => {
+            return res.status(500)
+                .json({
+                    success: false,
+                    message: "update account fail",
+                    error: err
+                })
+        });
+
+    } else {
+        var detail = await CustomerDetail.find({ adminId: userInfo._id }).then((d) => {
+            return d;
+        }).catch((err) => {
+            return res.status(500)
+                .json({
+                    success: false,
+                    message: "update account fail",
+                    error: err
+                })
+        });
+        if (req.body.firstName) {
+            detail.firstName = req.body.firstName;
+        }
+        if (req.body.lastName) {
+            detail.firstName = req.body.firstName;
+        }
+        if (req.body.fullName) {
+            detail.fullName = req.body.fullName;
+        }
+
+        if (req.body.address) {
+            detail.address = req.body.address;
+        }
+
+        if (req.body.province) {
+            detail.province = req.body.province;
+        }
+
+        if (req.body.district) {
+            detail.district = req.body.district;
+        }
+
+        if (req.body.village) {
+            detail.village = req.body.village;
+        }
+        detail.updatedAt = Date.now;
+        detail.save().then((result) => {
+            return res.status(200).json({
+                success: true,
+                message: "update account success"
+            });
+        }).catch((err) => {
+            return res.status(500)
+                .json({
+                    success: false,
+                    message: "update account fail",
+                    error: err
+                })
+        });
+    }
+
 
 }
 
@@ -99,7 +230,7 @@ exports.getCustomersPaginate = async(req, res) => {
         });
 }
 
-exports.getEmployeePaginate = async(req, res) => {
+exports.getAdminPaginate = async(req, res) => {
     var perPage = Number(req.query.perPage);
     var page = Math.max(1, req.query.page);
     var count = await User.count({ isAdmin: true });
@@ -183,15 +314,15 @@ exports.getCustomerDetailById = async(req, res) => {
             province: customerDetail.province,
             district: customerDetail.district,
             village: customerDetail.village,
-            phone: customerDetail.phone,
+            phone: user.phone,
             address: customerDetail.address,
-            birthday: customerDetail.birthday,
+            image: user.image
         }
     })
 
 }
 
-exports.getEmployeeDetailById = async(req, res) => {
+exports.getAdminDetailById = async(req, res) => {
     var id = req.params.id;
 
     if (!ObjectId.isValid(id)) {
@@ -221,10 +352,188 @@ exports.getEmployeeDetailById = async(req, res) => {
             firstName: adminDetail.firstName,
             lastName: adminDetail.lastName,
             fullName: adminDetail.fullName,
-            phone: adminDetail.phone,
-            address: adminDetail.address,
-            birthday: adminDetail.birthday,
+            phone: user.phone,
+            image: user.image
         }
+    });
+
+}
+
+exports.updateCustomer = async(req, res) => {
+    var user = await User.findById(req.params.id);
+    if (req.file != undefined) {
+
+        Image.findOneAndDelete({ name: user.image });
+        console.log(req.file);
+        var img = req.file.buffer;
+        console.log(img);
+        const fileUpload = new Resize();
+        const filename = await fileUpload.save(
+            img,
+            req.file.mimetype,
+            req.file.originalname
+        );
+
+        if (filename != null) {
+            user.image = filename;
+        }
+        user.updated_at = Date.now;
+
+        user.save().then(d => { return d; }).catch((err) => {
+            return res.status(500)
+                .json({
+                    success: false,
+                    message: "update customer fail",
+                    error: err
+                });
+        });
+    }
+    if (req.body.status) {
+        user.status = req.body.status;
+        user.updated_at = Date.now;
+
+        user.save().then(d => { return d; }).catch((err) => {
+            return res.status(500)
+                .json({
+                    success: false,
+                    message: "update customer fail",
+                    error: err
+                });
+        });
+    }
+
+    var detail = await CustomerDetail.find({ adminId: userInfo._id }).then((d) => {
+        return d;
+    }).catch((err) => {
+        return res.status(500)
+            .json({
+                success: false,
+                message: "update customer fail",
+                error: err
+            });
+    });
+    if (req.body.firstName) {
+        detail.firstName = req.body.firstName;
+    }
+    if (req.body.lastName) {
+        detail.firstName = req.body.firstName;
+    }
+    if (req.body.fullName) {
+        detail.fullName = req.body.fullName;
+    }
+
+    if (req.body.address) {
+        detail.address = req.body.address;
+    }
+
+    if (req.body.province) {
+        detail.province = req.body.province;
+    }
+
+    if (req.body.district) {
+        detail.district = req.body.district;
+    }
+
+    if (req.body.village) {
+        detail.village = req.body.village;
+    }
+    detail.updatedAt = Date.now;
+    detail.save().then((result) => {
+        return res.status(200).json({
+            success: true,
+            message: "update customer success"
+        });
+    }).catch((err) => {
+        return res.status(500)
+            .json({
+                success: false,
+                message: "update customer fail",
+                error: err
+            })
+    });
+
+}
+exports.updateAdmin = async(req, res) => {
+    var user = await User.findById(req.params.id);
+    if (req.file != undefined) {
+
+        Image.findOneAndDelete({ name: user.image });
+        console.log(req.file);
+        var img = req.file.buffer;
+        console.log(img);
+        const fileUpload = new Resize();
+        const filename = await fileUpload.save(
+            img,
+            req.file.mimetype,
+            req.file.originalname
+        );
+
+        if (filename != null) {
+            user.image = filename;
+        }
+        user.updated_at = Date.now;
+
+        user.save().then(d => { return d; }).catch((err) => {
+            return res.status(500)
+                .json({
+                    success: false,
+                    message: "update customer fail",
+                    error: err
+                });
+        });
+    }
+
+    if (req.body.status) {
+        user.status = req.body.status;
+        user.updated_at = Date.now;
+
+        user.save().then(d => { return d; }).catch((err) => {
+            return res.status(500)
+                .json({
+                    success: false,
+                    message: "update customer fail",
+                    error: err
+                });
+        });
+    }
+
+    var detail = await AdminDetail.find({ adminId: userInfo._id }).then((d) => {
+        return d;
+    }).catch((err) => {
+        return res.status(500)
+            .json({
+                success: false,
+                message: "update customer fail",
+                error: err
+            });
+    });
+    if (req.body.firstName) {
+        detail.firstName = req.body.firstName;
+    }
+    if (req.body.lastName) {
+        detail.firstName = req.body.firstName;
+    }
+    if (req.body.fullName) {
+        detail.fullName = req.body.fullName;
+    }
+
+    if (req.body.aera) {
+        detail.aera = req.body.aera;
+    }
+
+    detail.updatedAt = Date.now;
+    detail.save().then((result) => {
+        return res.status(200).json({
+            success: true,
+            message: "update customer success"
+        });
+    }).catch((err) => {
+        return res.status(500)
+            .json({
+                success: false,
+                message: "update customer fail",
+                error: err
+            })
     });
 
 }

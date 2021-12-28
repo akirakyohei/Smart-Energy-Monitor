@@ -32,7 +32,7 @@ const adminDetailSchema = new mongoose.Schema({
         required: true,
         auto: true,
     },
-    adminId: mongoose.Schema.Types.ObjectId,
+    userId: mongoose.Schema.Types.ObjectId,
     firstName: { type: String, required: true, maxLength: 10 },
     lastName: { type: String, required: true, maxLength: 10 },
     fullName: { type: String, required: true, maxLength: 30 },

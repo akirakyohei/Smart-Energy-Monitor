@@ -47,7 +47,6 @@ const customerDetailSchema = new mongoose.Schema({
     province: { type: String, default: null },
     district: { type: String },
     village: { type: String },
-    birthday: { type: Date, default: null },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

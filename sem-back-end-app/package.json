@@ -13,17 +13,21 @@
     "dependencies": {
         "amqplib": "^0.8.0",
         "bcryptjs": "^2.4.3",
-        "body-parser": "^1.19.0",
+        "body-parser": "^1.19.1",
         "config.json": "^0.0.4",
         "connect-livereload": "^0.6.1",
         "cors": "^2.8.5",
         "crypto": "^1.0.1",
         "dotenv": "^10.0.0",
+        "ejs": "^3.1.6",
         "express": "^4.17.1",
         "express-jwt": "^6.1.0",
         "fs": "^0.0.1-security",
         "handlebars": "^4.7.7",
+        "html-to-text": "^8.1.0",
         "jsonwebtoken": "^8.5.1",
+        "juice": "^8.0.0",
+        "kue": "^0.11.6",
         "livereload": "^0.9.3",
         "mongoose": "^6.0.12",
         "morgan": "^1.10.0",
@@ -37,6 +41,7 @@
         "swagger-ui-express": "^4.1.6",
         "twilio": "^3.69.0",
         "uuid": "^8.3.2",
-        "validator": "^13.7.0"
+        "validator": "^13.7.0",
+        "vn-num2words": "^1.0.4"
     }
 }

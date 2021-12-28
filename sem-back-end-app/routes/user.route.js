@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/user.controller');
 const AuthMiddleware = require('../middlewares/auth.middleware');
+const verifySignup = require("../middlewares/verifySignUp.middleware");
+const upload = require('../middlewares/uploadFile.middleware.js');
+
 /**
  * @swagger
  * /api/user:
@@ -105,11 +108,11 @@ router.get('/', [AuthMiddleware.verifyToken], userController.getUserDetail);
  *                  
  *                  
  */
-router.get('/customer', userController.getCustomersPaginate);
+router.get('/customer', [AuthMiddleware.verifyToken], userController.getCustomersPaginate);
 
 /**
  * @swagger
- * /api/user/employee:
+ * /api/user/admin:
  *  get:
  *      summary: 
  *      tags: [User]
@@ -170,7 +173,7 @@ router.get('/customer', userController.getCustomersPaginate);
  *                  
  *                  
  */
-router.get('/employee', userController.getEmployeePaginate);
+router.get('/admin', [AuthMiddleware.verifyToken], userController.getAdminPaginate);
 
 
 
@@ -245,12 +248,12 @@ router.get('/employee', userController.getEmployeePaginate);
  *                  
  *                  
  */
-router.get('/customer/:id', userController.getCustomerDetailById);
+router.get('/customer/:id', [AuthMiddleware.verifyToken], userController.getCustomerDetailById);
 
 
 /**
  * @swagger
- * /api/user/employee/{id}:
+ * /api/user/admin/{id}:
  *  get:
  *      summary: 
  *      tags: [User]
@@ -312,8 +315,197 @@ router.get('/customer/:id', userController.getCustomerDetailById);
  *                  
  *                  
  */
-router.get('/employee/:id', userController.getEmployeeDetailById);
+router.get('/admin/:id', [AuthMiddleware.verifyToken], userController.getAdminDetailById);
 
+
+
+/**
+ * @swagger
+ * /api/user:
+ *  put:
+ *      summary: 
+ *      tags: [User]
+ *      requestBody:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          firstName:
+ *                              type: string
+ *                          lastName:
+ *                              type: string
+ *                          fullName:
+ *                              type: boolean
+ *                          image:
+ *                              type: string
+ *                              format: binary
+ *                          address:
+ *                              type: string
+ *                          province:
+ *                              type: string
+ *                          district:
+ *                              type: string
+ *                          village:
+ *                              type: string
+ *      responses:
+ *          200:
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              success:
+ *                                  type: boolean
+ *                              message:
+ *                                  type: string
+ *                                 
+ *          500:
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              success:
+ *                                  type: boolean
+ *                              message:
+ *                                  type: string 
+ *                              error:
+ *                                  type: string
+ * 
+ *                      
+ *                  
+ *                  
+ */
+router.put('/', [verifySignup.checkDuplicateUsernameOrEmail, upload.single("image")], userController.updateAccount);
+
+/**
+ * @swagger
+ * /api/user/customer/{id}:
+ *  put:
+ *      summary: 
+ *      tags: [User]
+ *      parameters: [
+ *          {
+ *              name: id,
+ *              in: path,
+ *              type: string,
+ *              required: true
+ *          }         
+ *          ]
+ *      requestBody:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          firstName:
+ *                              type: string
+ *                          lastName:
+ *                              type: string
+ *                          fullName:
+ *                              type: boolean
+ *                          image:
+ *                              type: string
+ *                              format: binary
+ *                          address:
+ *                              type: string
+ *                          province:
+ *                              type: string
+ *                          district:
+ *                              type: string
+ *                          village:
+ *                              type: string
+ *      responses:
+ *          200:
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              success:
+ *                                  type: boolean
+ *                              message:
+ *                                  type: string
+ *                                 
+ *          500:
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              success:
+ *                                  type: boolean
+ *                              message:
+ *                                  type: string 
+ *                              error:
+ *                                  type: string
+ * 
+ *                      
+ *                  
+ *                  
+ */
+router.put('/customer/:id', [verifySignup.checkDuplicateUsernameOrEmail, upload.single("image")], userController.updateCustomer);
+
+/**
+ * @swagger
+ * /api/user/admin/{id}:
+ *  put:
+ *      summary: 
+ *      tags: [User]
+ *      parameters: [
+ *          {
+ *              name: id,
+ *              in: path,
+ *              type: string,
+ *              required: true
+ *          }         
+ *          ]
+ *      requestBody:
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          firstName:
+ *                              type: string
+ *                          lastName:
+ *                              type: string
+ *                          fullName:
+ *                              type: boolean
+ *                          image:
+ *                              type: string
+ *                              format: binary
+ *      responses:
+ *          200:
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              success:
+ *                                  type: boolean
+ *                              message:
+ *                                  type: string
+ *                                 
+ *          500:
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              success:
+ *                                  type: boolean
+ *                              message:
+ *                                  type: string 
+ *                              error:
+ *                                  type: string
+ * 
+ *                      
+ *                  
+ *                  
+ */
+router.put('/admin/:id', [verifySignup.checkDuplicateUsernameOrEmail, upload.single("image")], userController.updateAdmin);
 
 
 
