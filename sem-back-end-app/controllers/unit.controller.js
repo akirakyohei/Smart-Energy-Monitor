@@ -51,8 +51,17 @@ exports.getUnitById = function(req, res) {
 }
 
 exports.getAllUnit = function(req, res) {
-    Unit.find()
-        .select('_id name description unit')
+
+    var name = req.query.name;
+
+    var q;
+    if (name !== null) {
+        q = Unit.find({ name: { $regex: ".*" + name + ".*" } });
+    } else {
+        q = Unit.find();
+    }
+
+    q.select('_id name description unit')
         .then((units) => {
             return res.status(200).json({
                 success: true,

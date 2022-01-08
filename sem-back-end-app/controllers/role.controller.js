@@ -47,8 +47,17 @@ exports.getRoleById = function(req, res) {
 }
 
 exports.getAllRole = function(req, res) {
-    Role.find()
-        .select('_id name description')
+
+    var name = req.query.name;
+
+    var q;
+    if (name !== null) {
+        q = Role.find({ name: { $regex: ".*" + name + ".*" } });
+    } else {
+        q = Role.find();
+    }
+
+    q.select('_id name description')
         .then((roles) => {
             return res.status(200).json({
                 success: true,

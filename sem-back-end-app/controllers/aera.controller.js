@@ -1,36 +1,34 @@
-const Aera = require('../entities/area');
-const mongoose = require('mongoose');
+const Aera = require("../entities/area");
+const mongoose = require("mongoose");
 
 // create
 exports.createAera = function(req, res) {
-
-
     let aera = new Aera({
         _id: mongoose.Types.ObjectId(),
         name: req.body.name,
         description: req.body.description,
-        status: true
+        status: true,
     });
 
-    return aera.save().then((newAera) => {
-        return res.status(201).json({
-            success: true,
-            message: 'Aera created successfully',
-            aera: newAera,
+    return aera
+        .save()
+        .then((newAera) => {
+            return res.status(201).json({
+                success: true,
+                message: "Aera created successfully",
+                aera: newAera,
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+                success: false,
+                message: "Server error. Please try again.",
+                error: err.message,
+            });
+            return;
         });
-
-    }).catch((err) => {
-        console.log(err);
-        res.status(500).json({
-            success: false,
-            message: "Server error. Please try again.",
-            error: err.message,
-        });
-        return;
-    });
-
-}
-
+};
 
 exports.getAeraById = function(req, res) {
     Aera.findById(req.params.id)
@@ -39,9 +37,10 @@ exports.getAeraById = function(req, res) {
                 success: true,
                 message: "Found",
                 aera: singleAera,
-            })
+            });
             return;
-        }).catch((err) => {
+        })
+        .catch((err) => {
             res.status(500).json({
                 success: false,
                 message: "This aera does not exist",
@@ -49,19 +48,57 @@ exports.getAeraById = function(req, res) {
             });
             return;
         });
-}
+};
 
 exports.getAllAera = function(req, res) {
-    Aera.find()
-        .select('_id name description status')
+    var name = req.query.name;
+    var perPage = Number(req.query.perPage);
+    var page = Math.max(1, req.query.page);
+    var q;
+    if (name !== null) {
+        q = Aera.find({ name: { $regex: ".*" + name + ".*" } });
+    } else {
+        q = Aera.find();
+    }
+
+    if (perPage !== null && page !== null) {
+        var count = 0;
+        if (name !== null) {
+            var count = await Aera.count({ name: { $regex: ".*" + name + ".*" } });
+        } else {
+            var count = await Aera.count();
+        }
+        if (count === 0) {
+            return res.status(200).json({
+                success: true,
+                message: "List of all aeras.",
+                data: {
+                    page: page,
+                    perPage: perPage,
+                    pages: 0,
+                    aeras: []
+                }
+            });
+        }
+        var totalPage = Math.ceil(count / perPage);
+        page = Math.min(page, totalPage);
+        q.skip(perPage * (page - 1))
+            .limit(perPage);
+
+    }
+    q.sort({
+        name: 'asc'
+    });
+    q.select("_id name description status")
         .then((aeras) => {
             return res.status(200).json({
                 success: true,
                 message: "List of all aeras.",
                 aeras: aeras,
-            })
+            });
             return;
-        }).catch((err) => {
+        })
+        .catch((err) => {
             res.status(500).json({
                 success: false,
                 message: "Server error. Please try again.",
@@ -69,7 +106,7 @@ exports.getAllAera = function(req, res) {
             });
             return;
         });
-}
+};
 
 exports.updateAera = function(req, res) {
     const id = req.params.id;
@@ -82,30 +119,33 @@ exports.updateAera = function(req, res) {
                 success: true,
                 message: "Area is updated.",
                 updateAera: updateAera,
-            })
-            return;
-        }).catch((err) => {
-            res.status(500).json({
-                success: false,
-                message: "Server error. Please try again."
-            });
-            return;
-        });
-}
-
-exports.deleteAera = function(req, res) {
-    Aera.findByIdAndRemove(req.params.id)
-        .exec().then(() => {
-            res.status(204).json({
-                success: true,
-                message: "Aera is deleted.",
-            })
-            return;
-        }).catch((err) => {
-            res.status(500).json({
-                success: false,
-                message: "Server error. Please try again."
             });
             return;
         })
-}
+        .catch((err) => {
+            res.status(500).json({
+                success: false,
+                message: "Server error. Please try again.",
+            });
+            return;
+        });
+};
+
+exports.deleteAera = function(req, res) {
+    Aera.findByIdAndRemove(req.params.id)
+        .exec()
+        .then(() => {
+            res.status(204).json({
+                success: true,
+                message: "Aera is deleted.",
+            });
+            return;
+        })
+        .catch((err) => {
+            res.status(500).json({
+                success: false,
+                message: "Server error. Please try again.",
+            });
+            return;
+        });
+};

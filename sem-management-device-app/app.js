@@ -7,7 +7,7 @@ const db = require('./configs/db.config');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./configs/swagger.config');
 const ibmService = require('./services/ibm.service');
-const { amqpAddDevice } = require('./services/rabbitmq.server.rpc.service');
+const AmqpService = require('./services/rabbitmq.server.rpc.service');
 const kue = require('kue');
 // const livereload = require('livereload');
 // const connectLiveReload = require('connect-livereload');
@@ -61,9 +61,9 @@ app.use(kue.app);
 
 const PORT = process.env.PORT || 8081;
 
-amqpAddDevice().then(() => {
-    app.listen(PORT, function() {
-        console.log(`Example app listening on port ${PORT}!`);
-        console.log(`http://localhost:${PORT}/docs`);
-    });
+AmqpService.connectAmqpServer();
+
+app.listen(PORT, function() {
+    console.log(`Example app listening on port ${PORT}!`);
+    console.log(`http://localhost:${PORT}/docs`);
 });

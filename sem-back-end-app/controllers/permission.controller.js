@@ -51,7 +51,15 @@ exports.getPermissionById = function(req, res) {
 }
 
 exports.getAllPermission = function(req, res) {
-    Permission.find()
+    var name = req.query.name;
+
+    var q;
+    if (name !== null) {
+        q = Permission.find({ name: { $regex: ".*" + name + ".*" } });
+    } else {
+        q = Permission.find();
+    }
+    q.find()
         .select('_id name description')
         .then((permissions) => {
             return res.status(200).json({

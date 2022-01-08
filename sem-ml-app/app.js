@@ -6,7 +6,6 @@ const logger = require('morgan');
 const db = require('./configs/db.config');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./configs/swagger.config');
-const ibmService = require('./services/ibm.service');
 const { amqpAddDevice } = require('./services/rabbitmq.server.rpc.service');
 // const livereload = require('livereload');
 // const connectLiveReload = require('connect-livereload');
@@ -42,8 +41,6 @@ mongoose.connect(
 )
 
 
-ibmService.connect();
-ibmService.handleDeviceEvents();
 
 
 // 
@@ -51,7 +48,7 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // 
 
 
-const PORT = process.env.PORT || 8081;
+const PORT = process.env.PORT || 8082;
 
 amqpAddDevice().then(() => {
     app.listen(PORT, function() {
