@@ -50,7 +50,7 @@ exports.getAeraById = function(req, res) {
         });
 };
 
-exports.getAllAera = function(req, res) {
+exports.getAllAera = async function(req, res) {
     var name = req.query.name;
     var perPage = Number(req.query.perPage);
     var page = Math.max(1, req.query.page);
@@ -60,9 +60,8 @@ exports.getAllAera = function(req, res) {
     } else {
         q = Aera.find();
     }
-
+    var count = 0;
     if (perPage !== null && page !== null) {
-        var count = 0;
         if (name !== null) {
             var count = await Aera.count({ name: { $regex: ".*" + name + ".*" } });
         } else {
@@ -76,18 +75,16 @@ exports.getAllAera = function(req, res) {
                     page: page,
                     perPage: perPage,
                     pages: 0,
-                    aeras: []
-                }
+                    aeras: [],
+                },
             });
         }
         var totalPage = Math.ceil(count / perPage);
         page = Math.min(page, totalPage);
-        q.skip(perPage * (page - 1))
-            .limit(perPage);
-
+        q.skip(perPage * (page - 1)).limit(perPage);
     }
     q.sort({
-        name: 'asc'
+        name: "asc",
     });
     q.select("_id name description status")
         .then((aeras) => {
@@ -95,6 +92,9 @@ exports.getAllAera = function(req, res) {
                 success: true,
                 message: "List of all aeras.",
                 aeras: aeras,
+                page: page,
+                perPage: perPage,
+                pages: 0,
             });
             return;
         })
