@@ -122,7 +122,14 @@ router.get('/:id', roleController.getRoleById);
  *  get:
  *      summary: 
  *      tags: [Role]
- *      description: "signup by customer without admin role"
+ *      parameters: [
+ *          {
+ *              name: name,
+ *              in: query,
+ *              type: string
+ *          }
+ *          ]
+ *
  *      responses:
  *          200:
  *              content:

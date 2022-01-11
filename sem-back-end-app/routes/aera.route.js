@@ -121,6 +121,14 @@ router.get('/:id', aeraController.getAeraById);
  *  get:
  *      summary: 
  *      tags: [Aera]
+ *      parameters: [
+ *          {
+ *              name: name,
+ *              in: query,
+ *              type: string
+ *          }
+ *          ]
+ *
  *      responses:
  *          200:
  *              content:

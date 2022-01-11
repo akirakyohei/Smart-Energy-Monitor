@@ -125,7 +125,13 @@ router.get('/:id', unitController.getUnitById);
  *  get:
  *      summary: 
  *      tags: [Unit]
- *      description: "signup by customer without admin role"
+ *      parameters: [
+ *          {
+ *              name: name,
+ *              in: query,
+ *              type: string
+ *          }
+ *          ]
  *      responses:
  *          200:
  *              content:
