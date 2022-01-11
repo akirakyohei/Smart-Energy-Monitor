@@ -116,6 +116,7 @@ app.use("/api/mail", (req, res) => {
 
 AmqpService.connectAmqpServer();
 MailService.processSendMailPayment();
+
 app.use(kue.app);
 
 const PORT = process.env.PORT || 8080;

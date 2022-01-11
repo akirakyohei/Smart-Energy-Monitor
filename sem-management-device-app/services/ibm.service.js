@@ -5,6 +5,7 @@ const MeterPower = require("../entities/meter_power");
 const DeviceDetail = require("../entities/device_detail");
 const AmqpService = require("./rabbitmq.server.rpc.service");
 const kue = require("kue");
+const redisConfig = require("../configs/redis.config");
 
 const appClientConfig = {
     org: ibmConfig.orgId,
@@ -14,7 +15,14 @@ const appClientConfig = {
     "auth-token": ibmConfig.apiToken,
 };
 
-const jobs = kue.createQueue();
+
+const jobs = kue.createQueue({
+    redis: {
+        host: redisConfig.REDIS_HOSTNAME,
+        port: redisConfig.REDIS_PORT,
+        auth: redisConfig.REDIS_PASSWORD,
+    }
+});
 const appClient = new Client.IotfApplication(appClientConfig);
 const deviceType = "monitor-device";
 const connect = function() {

@@ -6,9 +6,15 @@ const { convert } = require("html-to-text");
 const juice = require("juice");
 const handlebars = require("handlebars");
 const kue = require("kue");
+const redisConfig = require("../configs/redis.config");
 
-const jobs = kue.createQueue();
-
+const jobs = kue.createQueue({
+    redis: {
+        host: redisConfig.REDIS_HOSTNAME,
+        port: redisConfig.REDIS_PORT,
+        auth: redisConfig.REDIS_PASSWORD,
+    }
+});
 exports.sendMailSimple = (to, subject, text, html) => {
     var job = jobs.create("send_mail_simple", {
         to: to,

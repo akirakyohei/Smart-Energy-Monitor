@@ -9,15 +9,11 @@ module.exports = AmqpService = class {
     static connectAmqpServer = () => {
         amqp
             .connect(amqpConfig.host)
-            .then((con) => {
-                ch1 = con.createChannel();
-                ch2 = con.createChannel();
-                return ch1, ch2;
-            })
-            .then((ch1, ch2) => {
+            .then(conn => conn.createChannel())
+            .then((ch) => {
                 console.log(amqpConfig.device_queue_name);
-                ch1.assertQueue(amqpConfig.device_queue_name).then(() => {
-                    ch1.consume(amqpConfig.device_queue_name, (msg) => {
+                ch.assertQueue(amqpConfig.device_queue_name).then(() => {
+                    ch.consume(amqpConfig.device_queue_name, (msg) => {
                         console.log("process add device.");
                         var message = JSON.parse(msg.content);
                         var command = message.command;
@@ -57,28 +53,28 @@ module.exports = AmqpService = class {
                                 var outMessage = { success: true, data: result };
                                 var out = JSON.stringify(outMessage);
                                 console.log(out);
-                                ch1.sendToQueue(
+                                ch.sendToQueue(
                                     msg.properties.replyTo,
                                     Buffer.from(out, "utf8"), {
                                         correlationId: msg.properties.correlationId,
                                     }
                                 );
-                                ch1.ack(msg);
+                                ch.ack(msg);
                             })
                             .catch((err) => {
                                 var msgErr = { succes: false, err: err.data.message };
                                 var out = JSON.stringify(msgErr);
-                                ch1.sendToQueue(
+                                ch.sendToQueue(
                                     msg.properties.replyTo,
                                     Buffer.from(out, "utf8"), {
                                         correlationId: msg.properties.correlationId,
                                     }
                                 );
-                                ch1.ack(msg);
+                                ch.ack(msg);
                             });
                     });
                 });
-                this.channel = ch2;
+                this.channel = ch;
             })
             .catch((err) => {
                 console.error(err);

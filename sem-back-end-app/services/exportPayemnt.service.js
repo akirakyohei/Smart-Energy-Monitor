@@ -1,10 +1,19 @@
 const kue = require("kue");
 const ObjectId = require("mongoose").Types.ObjectId;
-const jobs = kue.createQueue();
 const { calMoneyPay } = require("../helpers/calculate.hepler.js");
 const VNnum2words = require("vn-num2words");
 const Payment = require("../entities/payment.js");
 const MailService = require("./mail.service");
+const redisConfig = require("../configs/redis.config");
+
+const jobs = kue.createQueue({
+    redis: {
+        host: redisConfig.REDIS_HOSTNAME,
+        port: redisConfig.REDIS_PORT,
+        auth: redisConfig.REDIS_PASSWORD,
+    }
+});
+
 exports.exportPayment = (data) => {
     data = {
         aeras: data.aeras,
