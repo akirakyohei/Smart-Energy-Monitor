@@ -133,10 +133,11 @@ const processAddMeter = () => {
         var hour = data.hour;
 
         var date = new Date();
+        date.setHours(hour, 0, 0, 0);
         if (hour === 23) {
             date.setDate(date.getDate() - 1);
         }
-        date.setHours(hour, 0, 0, 0);
+
         let meterPower = new MeterPower({
             _id: mongoose.Types.ObjectId(),
             deviceId: mongoose.Types.ObjectId(deviceId),
@@ -151,14 +152,19 @@ const processAddMeter = () => {
             .save()
             .then((newMeter) => {
                 console.log(newMeter);
-                AmqpService.sendMeter(newMeter)
-                    .then((data) => {
-                        done();
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                        done(new Error(err));
-                    });
+                if (hour === 23) {
+                    AmqpService.sendMeter(newMeter)
+                        .then((data) => {
+                            done();
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            done(new Error(err));
+                        });
+                } else {
+                    done();
+                }
+
             })
             .catch((err) => {
                 console.log(err);
