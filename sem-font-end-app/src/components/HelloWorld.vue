@@ -28,14 +28,14 @@
             <h2>I make everything easy for you</h2>
             <div class="about-btns">
                   <router-link to="/signin" tag="button" class="btn btn-pink">LOG IN</router-link>
-                  <router-link to="/signup" tag="button" class="btn btn-white">REGISTER</router-link>
+                  <router-link to="/signup" tag="button" class="btn btn-white" disabled>REGISTER</router-link>
             </div>
 
             <div class="about-para">
                 <p>Create clear, multi-functional to-do lists to easily manage your ideas and work from anywhere so you never forget anything again.</p>
                 <p>Save any list as a template to reuse and customize as many times as you want. You can even create recurring tasks with saved checklists for error-free processes.</p>
             </div>
-            <div class="credit">Made with <span style="color:tomato">❤</span> Developer</div>
+            <div class="credit" style="margin-top: 50px;">Made with <span style="color:tomato">❤</span> Developer</div>
         </div>
     </div>
 </template>

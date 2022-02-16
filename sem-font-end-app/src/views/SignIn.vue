@@ -1,9 +1,10 @@
 .
 <template>
+<div id="signin">
   <div id="cover">
     <div id="form-ui" style="margin-top: 50px">
       <el-form
-        :model="dynamicValidateForm"
+        
         ref="dynamicValidateForm"
         method="post"
         action=""
@@ -20,51 +21,44 @@
             <el-form-item
               prop="email"
               label=""
-              :rules="[
-                {
-                  required: true,
-                  message: 'Please input email address',
-                  trigger: 'blur',
-                },
-                {
-                  type: 'email',
-                  message: 'Please input correct email address',
-                  trigger: ['blur', 'change'],
-                },
-              ]"
+              
             >
               <el-input
+              :model="dynamicValidateForm.email"
                 class="f-inp"
-                v-model="dynamicValidateForm.email"
+                type="email"
+                v-model="signin.email"
                 placeholder="Email Address"
-              ></el-input>
+                
+              >
+              
+              </el-input>
               <!-- <input type="text" placeholder="Email Address" /> -->
+            
             </el-form-item>
             <el-form-item
               label=""
               prop="password"
-              :rules="{
-                required: true,
-                message: 'Password can not be null',
-                trigger: 'blur',
-              }"
+              
             >
               <el-input
+              :model="dynamicValidateForm.password"
                 class="f-inp"
-                v-model="dynamicValidateForm.password"
+                type="password"
+                v-model="signin.password"
                 placeholder="Password"
               ></el-input>
             </el-form-item>
             <!-- <input type="password" placeholder="Password" /> -->
           </div>
           <div id="submit-button-cvr" style="margin-top: 40px">
-            <router-link to="/homepage" style="text-decoration: none">
-              <el-button type="submit" id="submit-button">LOG IN</el-button>
-            </router-link>
+            <!-- <router-link to="/homepage" style="text-decoration: none"> -->
+              <el-button type="submit" id="submit-button" @click="signIn">LOG IN</el-button>
+            <!-- </router-link> -->
           </div>
           <div id="submit-button-cvr">
-            <router-link to="/signup" style="text-decoration: none">
-              <el-button type="submit" id="submit-button">REGISTER</el-button>
+            <router-link to="" style="text-decoration: none">
+              <el-button type="submit" id="submit-button" disabled>REGISTER</el-button>
             </router-link>
           </div>
           <div id="bar" style="margin-bottom: 10px"></div>
@@ -78,9 +72,11 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
@@ -88,6 +84,11 @@ export default {
         password: "",
         email: "",
       },
+       signin: {
+        email: "",
+        password: "",
+      },
+      errored: false,
     };
   },
   methods: {
@@ -101,6 +102,31 @@ export default {
         }
       });
     },
+    async signIn() {
+      console.log(this.signin);
+      await axios
+        .post("https://mockup-api.herokuapp.com/auth/signin", this.signin)
+        .then((response) => {
+          let newToken = response.data.auth_token;
+          window.token = newToken;
+          let email = response.data.email;
+          // let email = response.da
+          localStorage.setItem("token", newToken);
+          localStorage.setItem("email", email);
+          // localStorage.setItem("email", JSON.stringify(user));
+          window.axios.defaults.params = { auth_token: newToken };
+          // Event.$emit("signin", user);
+          this.errored = false;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errored = true;
+        });
+      if (!this.errored) this.$router.push({ path: "/dashboard" });
+      if (this.errored) this.$router.push({ path: "/dashboardcus" });
+      if (this.errored == 422) this.$router.push({ path: "/dashboardads" });
+      /* if (this.errored !=0) this.$router.push({ path: "/dashboardads" }); */
+    },
     /*       resetForm(formName) {
         this.$refs[formName].resetFields();
       }, */
@@ -108,11 +134,16 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+
 * {
   outline: none;
 }
-
+#signin {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(124, 74, 204);
+}
 body {
   margin: 8px;
   background-color: rgb(124, 74, 204);
@@ -200,18 +231,19 @@ form {
 }
 
 #input-area {
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
 .f-inp {
   padding: 10px 10px;
-  border: 1px solid #e3e3e3;
+  border: none;
   line-height: 1;
-  border-radius: 20px;
+  border-radius: 50px 20px 30px 100px;
 }
 
 .f-inp:first-child {
-  margin-bottom: 15px;
+  margin-bottom: 2px;
+  border: none;
 }
 
 .f-inp input {
@@ -220,15 +252,21 @@ form {
   height: 15px;
   padding: 0;
   margin: 0;
-  border: 0;
+  border: none;
+  
 }
-
+.el-input__inner {
+  border: 1px solid #a50101;
+  border-radius: 50px 20px 30px 100px;
+  background: red;
+}
 .f-inp input::placeholder {
   color: #b9b9b9;
+  border: none;
 }
 
 #submit-button-cvr {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 #submit-button {

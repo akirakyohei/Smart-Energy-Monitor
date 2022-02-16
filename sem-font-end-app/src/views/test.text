@@ -1,0 +1,1592 @@
+<template>
+  <div>
+    <div class="flex justify-between px-4 mt-4 sm:px-8">
+      <h2 class="text-2xl text-gray-600">Dashboard</h2>
+
+      <div class="flex items-center space-x-1 text-xs">
+        <a href="#" class="font-bold text-indigo-700">Home</a>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-2 w-2"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
+        <span class="text-gray-600">Dashboard</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 px-4 mt-8 sm:grid-cols-4 sm:px-8">
+      <div
+        class="
+          flex
+          items-center
+          bg-white
+          border
+          rounded-sm
+          overflow-hidden
+          shadow
+        "
+      >
+        <div class="p-4 bg-green-400">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-12 w-12 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+            />
+          </svg>
+        </div>
+        <div class="px-4 text-gray-700">
+          <h3 class="text-sm tracking-wider">Total Member</h3>
+          <p class="text-3xl">12,768</p>
+        </div>
+      </div>
+
+      <div
+        class="
+          flex
+          items-center
+          bg-white
+          border
+          rounded-sm
+          overflow-hidden
+          shadow
+        "
+      >
+        <div class="p-4 bg-blue-400">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-12 w-12 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"
+            />
+          </svg>
+        </div>
+        <div class="px-4 text-gray-700">
+          <h3 class="text-sm tracking-wider">Total Post</h3>
+          <p class="text-3xl">39,265</p>
+        </div>
+      </div>
+
+      <div
+        class="
+          flex
+          items-center
+          bg-white
+          border
+          rounded-sm
+          overflow-hidden
+          shadow
+        "
+      >
+        <div class="p-4 bg-indigo-400">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-12 w-12 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
+            />
+          </svg>
+        </div>
+        <div class="px-4 text-gray-700">
+          <h3 class="text-sm tracking-wider">Total Comment</h3>
+          <p class="text-3xl">142,334</p>
+        </div>
+      </div>
+
+      <div
+        class="
+          flex
+          items-center
+          bg-white
+          border
+          rounded-sm
+          overflow-hidden
+          shadow
+        "
+      >
+        <div class="p-4 bg-red-400">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-12 w-12 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
+            />
+          </svg>
+        </div>
+        <div class="px-4 text-gray-700">
+          <h3 class="text-sm tracking-wider">Server Load</h3>
+          <p class="text-3xl">34.12%</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 px-4 gap-4 mt-8 sm:grid-cols-3 sm:px-8">
+      <div class="px-4 py-2 bg-white border rounded-md overflow-hidden shadow">
+        <h3 class="text-xl text-gray-600 mb-4">Page View</h3>
+        <apexchart
+          type="area"
+          :height="300"
+          :options="pageViewOptions"
+          :series="pageViewSeries"
+        ></apexchart>
+      </div>
+
+      <div class="px-4 py-2 bg-white border rounded-md overflow-hidden shadow">
+        <h3 class="text-xl text-gray-600 mb-4">Sessions by device</h3>
+        <apexchart
+          type="donut"
+          :height="300"
+          :options="sessionsOptions"
+          :series="sessionsSeries"
+        ></apexchart>
+      </div>
+
+      <div class="grid grid-rows-2 gap-4">
+        <div class="px-4 py-2 bg-white border rounded-md shadow">
+          <h3 class="text-xl text-gray-600 mb-2">Popular Post</h3>
+
+          <div class="flex flex-col">
+            <div class="align-middle inline-block min-w-full">
+              <div class="overflow-hidden border-0">
+                <table class="table-auto min-w-full divide-y divide-gray-200">
+                  <thead>
+                    <tr>
+                      <th
+                        scope="col"
+                        class="
+                          py-3
+                          text-left text-xs
+                          font-medium
+                          text-gray-500
+                          uppercase
+                          tracking-wider
+                        "
+                      >
+                        Post Title
+                      </th>
+
+                      <th
+                        scope="col"
+                        class="
+                          py-3
+                          text-left text-xs
+                          font-medium
+                          text-gray-500
+                          uppercase
+                          tracking-wider
+                        "
+                      >
+                        Views
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200 text-sm text-gray-500">
+                    <tr>
+                      <td class="py-1">
+                        Create an Admin Panel with Vue.js and Tailwind CSS
+                      </td>
+                      <td class="py-1 text-sm text-gray-500">1,672</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1">How To Center a Div</td>
+                      <td class="py-1 text-sm text-gray-500">1,423</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1">Let's Star This Project</td>
+                      <td class="py-1 text-sm text-gray-500">926</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="px-4 py-2 bg-white border rounded-md shadow">
+          <h3 class="text-xl text-gray-600 mb-2">Top Contributor</h3>
+
+          <div class="flex flex-col">
+            <div class="align-middle inline-block min-w-full">
+              <div class="overflow-hidden border-0">
+                <table class="min-w-full divide-y divide-gray-200">
+                  <thead>
+                    <tr>
+                      <th
+                        scope="col"
+                        class="
+                          py-3
+                          text-left text-xs
+                          font-medium
+                          text-gray-500
+                          uppercase
+                          tracking-wider
+                        "
+                      >
+                        Name
+                      </th>
+
+                      <th
+                        scope="col"
+                        class="
+                          py-3
+                          text-right text-xs
+                          font-medium
+                          text-gray-500
+                          uppercase
+                          tracking-wider
+                        "
+                      >
+                        Commit
+                      </th>
+
+                      <th
+                        scope="col"
+                        class="
+                          py-3
+                          text-right text-xs
+                          font-medium
+                          text-gray-500
+                          uppercase
+                          tracking-wider
+                        "
+                      >
+                        Issue
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200 text-sm text-gray-500">
+                    <tr>
+                      <td class="py-1 whitespace-nowrap">Seto Kuslaksono</td>
+                      <td
+                        class="
+                          py-1
+                          text-right
+                          whitespace-nowrap
+                          text-sm text-gray-500
+                        "
+                      >
+                        41
+                      </td>
+                      <td
+                        class="
+                          py-1
+                          text-right
+                          whitespace-nowrap
+                          text-sm text-gray-500
+                        "
+                      >
+                        12
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 whitespace-nowrap">Some Dude</td>
+                      <td
+                        class="
+                          py-1
+                          text-right
+                          whitespace-nowrap
+                          text-sm text-gray-500
+                        "
+                      >
+                        22
+                      </td>
+                      <td
+                        class="
+                          py-1
+                          text-right
+                          whitespace-nowrap
+                          text-sm text-gray-500
+                        "
+                      >
+                        15
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 whitespace-nowrap">It Could Be You</td>
+                      <td
+                        class="
+                          py-1
+                          text-right
+                          whitespace-nowrap
+                          text-sm text-gray-500
+                        "
+                      >
+                        12
+                      </td>
+                      <td
+                        class="
+                          py-1
+                          text-right
+                          whitespace-nowrap
+                          text-sm text-gray-500
+                        "
+                      >
+                        4
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 px-4 mt-8 sm:grid-cols-5 sm:px-8">
+      <TabGroup>
+        <div class="bg-white border rounded-lg shadow sm:col-span-2">
+          <div
+            class="
+              flex flex-col
+              space-y-2
+              items-center
+              px-4
+              mb-2
+              py-2
+              border-b-2
+              text-gray-600
+              sm:flex-row sm:justify-between
+            "
+          >
+            <h3 class="tracking-wider">Top Author</h3>
+            <TabList class="flex space-x-1">
+              <Tab v-slot="{ selected }">
+                <button
+                  class="
+                    px-4
+                    py-2
+                    text-xs
+                    rounded-md
+                    hover:bg-blue-400 hover:text-white
+                  "
+                  :class="selected ? 'bg-blue-400 text-white' : ''"
+                >
+                  Today
+                </button>
+              </Tab>
+              <Tab v-slot="{ selected }">
+                <button
+                  class="
+                    px-4
+                    py-2
+                    text-xs
+                    rounded-md
+                    hover:bg-blue-400 hover:text-white
+                  "
+                  :class="selected ? 'bg-blue-400 text-white' : ''"
+                >
+                  Yesterday
+                </button>
+              </Tab>
+              <Tab v-slot="{ selected }">
+                <button
+                  class="
+                    px-4
+                    py-2
+                    text-xs
+                    rounded-md
+                    hover:bg-blue-400 hover:text-white
+                  "
+                  :class="selected ? 'bg-blue-400 text-white' : ''"
+                >
+                  Last 7 Days
+                </button>
+              </Tab>
+            </TabList>
+          </div>
+
+          <TabPanels class="px-4 py-2">
+            <TabPanel v-for="topAuthor in topAuthors" :key="topAuthor">
+              <table class="min-w-full text-gray-500">
+                <tbody>
+                  <tr v-for="author in topAuthor" :key="author.username">
+                    <td class="flex items-center py-2">
+                      <img
+                        class="
+                          inline-block
+                          h-12
+                          w-12
+                          rounded-full
+                          ring-2 ring-white
+                        "
+                        :src="author.avatar"
+                        alt=""
+                      />
+                      <div class="px-4">
+                        <div>{{ author.name }}</div>
+                        <div class="font-bold text-sm">
+                          <a href="#">@{{ author.username }}</a>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-2 text-right">
+                      <div class="text-2xl">{{ author.postViews }}</div>
+                      <div class="text-sm">Post Views</div>
+                    </td>
+                    <td class="hidden py-2 space-x-2 text-right sm:table-cell">
+                      <button
+                        class="
+                          p-1
+                          rounded-md
+                          bg-green-500
+                          text-white
+                          hover:bg-green-600
+                        "
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        class="
+                          p-1
+                          rounded-md
+                          bg-red-500
+                          text-white
+                          hover:bg-red-600
+                        "
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          />
+                        </svg>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </TabPanel>
+          </TabPanels>
+        </div>
+      </TabGroup>
+
+      <div class="bg-white border rounded-lg shadow sm:col-span-3">
+        <div
+          class="
+            flex
+            justify-between
+            items-center
+            px-4
+            py-2
+            mb-2
+            border-b-2
+            text-gray-600
+          "
+        >
+          <h3 class="tracking-wider">Recent Sales</h3>
+          <button
+            class="
+              border
+              rounded-sm
+              bg-gray-200
+              px-4
+              py-2
+              text-xs
+              hover:bg-gray-300
+            "
+          >
+            View All
+          </button>
+        </div>
+        <div class="px-4">
+          <table class="table-fixed min-w-full divide-y divide-gray-200">
+            <thead>
+              <tr>
+                <th
+                  scope="col"
+                  class="
+                    py-3
+                    text-left text-xs
+                    font-medium
+                    text-gray-500
+                    uppercase
+                    tracking-wider
+                  "
+                >
+                  Order ID
+                </th>
+
+                <th
+                  scope="col"
+                  class="
+                    py-3
+                    text-left text-xs
+                    font-medium
+                    text-gray-500
+                    uppercase
+                    tracking-wider
+                  "
+                >
+                  Item
+                </th>
+
+                <th
+                  scope="col"
+                  class="
+                    py-3
+                    text-left text-xs
+                    font-medium
+                    text-gray-500
+                    uppercase
+                    tracking-wider
+                  "
+                >
+                  Amount
+                </th>
+
+                <th
+                  scope="col"
+                  class="
+                    py-3
+                    text-left text-xs
+                    font-medium
+                    text-gray-500
+                    uppercase
+                    tracking-wider
+                  "
+                >
+                  Status
+                </th>
+
+                <th
+                  scope="col"
+                  class="
+                    py-3
+                    text-left text-xs
+                    font-medium
+                    text-gray-500
+                    uppercase
+                    tracking-wider
+                  "
+                >
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 text-sm text-gray-500">
+              <tr v-for="sales in recentSales" :key="sales.orderId">
+                <td class="py-4 whitespace-nowrap">{{ sales.orderId }}</td>
+                <td class="py-4 whitespace-nowrap text-sm text-gray-500">
+                  {{ sales.item }}
+                </td>
+                <td class="py-4 whitespace-nowrap text-sm text-gray-500">
+                  ${{ sales.amount }}
+                </td>
+                <td class="py-4 whitespace-nowrap text-sm text-gray-500">
+                  <span
+                    class="px-2 py-1 rounded text-xs text-white"
+                    :class="sales.labelClass"
+                    >{{ sales.status }}</span
+                  >
+                </td>
+                <td class="py-4 whitespace-nowrap text-sm text-blue-600">
+                  <a href="#">View Detail</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div
+            class="
+              py-2
+              flex
+              items-center
+              justify-between
+              border-t border-gray-200
+            "
+          >
+            <div
+              class="
+                hidden
+                sm:flex-1 sm:flex sm:items-center sm:justify-between
+              "
+            >
+              <div>
+                <p class="text-sm text-gray-500">
+                  Showing
+                  <span class="font-medium">1</span>
+                  to
+                  <span class="font-medium">5</span>
+                  of
+                  <span class="font-medium">42</span>
+                  results
+                </p>
+              </div>
+              <div>
+                <nav
+                  class="
+                    relative
+                    z-0
+                    inline-flex
+                    rounded-md
+                    shadow-sm
+                    -space-x-px
+                  "
+                  aria-label="Pagination"
+                >
+                  <a
+                    href="#"
+                    class="
+                      relative
+                      inline-flex
+                      items-center
+                      px-2
+                      rounded-l-md
+                      border border-gray-300
+                      text-sm
+                      font-medium
+                      text-gray-500
+                      hover:bg-gray-50
+                    "
+                  >
+                    <span class="sr-only">Previous</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 19l-7-7 7-7"
+                      />
+                    </svg>
+                  </a>
+                  <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
+                  <a
+                    href="#"
+                    aria-current="page"
+                    class="
+                      z-10
+                      bg-indigo-50
+                      border-indigo-500
+                      text-indigo-600
+                      relative
+                      inline-flex
+                      items-center
+                      px-4
+                      py-1
+                      border
+                      text-sm
+                      font-medium
+                    "
+                  >
+                    1
+                  </a>
+                  <a
+                    href="#"
+                    class="
+                      border-gray-300
+                      text-gray-500
+                      hover:bg-gray-50
+                      relative
+                      inline-flex
+                      items-center
+                      px-4
+                      py-1
+                      border
+                      text-sm
+                      font-medium
+                    "
+                  >
+                    2
+                  </a>
+                  <a
+                    href="#"
+                    class="
+                      border-gray-300
+                      text-gray-500
+                      hover:bg-gray-50
+                      hidden
+                      md:inline-flex
+                      relative
+                      items-center
+                      px-4
+                      py-1
+                      border
+                      text-sm
+                      font-medium
+                    "
+                  >
+                    3
+                  </a>
+                  <span
+                    class="
+                      relative
+                      inline-flex
+                      items-center
+                      px-4
+                      py-1
+                      border border-gray-300
+                      text-sm
+                      font-medium
+                      text-gray-700
+                    "
+                  >
+                    ...
+                  </span>
+                  <a
+                    href="#"
+                    class="
+                      border-gray-300
+                      text-gray-500
+                      hover:bg-gray-50
+                      hidden
+                      md:inline-flex
+                      relative
+                      items-center
+                      px-4
+                      py-1
+                      border
+                      text-sm
+                      font-medium
+                    "
+                  >
+                    8
+                  </a>
+                  <a
+                    href="#"
+                    class="
+                      border-gray-300
+                      text-gray-500
+                      hover:bg-gray-50
+                      relative
+                      inline-flex
+                      items-center
+                      px-4
+                      py-1
+                      border
+                      text-sm
+                      font-medium
+                    "
+                  >
+                    9
+                  </a>
+                  <a
+                    href="#"
+                    class="
+                      border-gray-300
+                      text-gray-500
+                      hover:bg-gray-50
+                      relative
+                      inline-flex
+                      items-center
+                      px-4
+                      py-1
+                      border
+                      text-sm
+                      font-medium
+                    "
+                  >
+                    10
+                  </a>
+                  <a
+                    href="#"
+                    class="
+                      relative
+                      inline-flex
+                      items-center
+                      px-2
+                      py-1
+                      rounded-r-md
+                      border border-gray-300
+                      text-sm
+                      font-medium
+                      text-gray-500
+                      hover:bg-gray-50
+                    "
+                  >
+                    <span class="sr-only">Next</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </a>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+
+
+export default {
+ /*  components: {
+    apexchart: VueApexCharts,
+    TabGroup,
+    TabList,
+    Tab,
+    TabPanels,
+    TabPanel,
+  },
+ */
+  setup() {
+    const pageViewOptions = {
+      chart: {
+        id: "pageview-chart",
+        toolbar: {
+          show: false,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      xaxis: {
+        categories: [
+          "Aug 1",
+          "Aug 2",
+          "Aug 3",
+          "Aug 4",
+          "Aug 5",
+          "Aug 6",
+          "Aug 7",
+        ],
+      },
+    };
+
+    const pageViewSeries = [
+      {
+        name: "Page view",
+        data: [3087, 4403, 3456, 2864, 4956, 6023, 7063],
+      },
+    ];
+
+    const sessionsOptions = {
+      chart: {
+        id: "sessions-chart",
+      },
+      labels: ["Desktop", "Mobile", "Tablet"],
+      legend: {
+        position: "bottom",
+      },
+    };
+
+    const sessionsSeries = [70.9, 27.2, 1.9];
+
+    return {
+      pageViewOptions,
+      pageViewSeries,
+      sessionsOptions,
+      sessionsSeries,
+      /* topAuthors,
+      recentSales, */
+    };
+  },
+};
+</script>
+
+
+
+// admin phân vùng
+.
+<template>
+  <div class="container">
+    <div class="nav">
+        <el-input
+              size="medium"
+              placeholder="Nhấn để tìm kiếm ..."
+              style="width: 400px; margin-top: 15px; margin-left: 200px;padding-left: 200px; padding-right: 200px;"
+            />
+      <p
+        style="
+          float: right;
+          margin: auto;
+          text-align: center;
+          margin-top: 20px;
+          margin-right: 20px;
+        "
+      >
+        Admin
+      </p>
+      <i class="el-icon-caret-bottom"></i>
+      <el-avatar
+        class="avata"
+        src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+      ></el-avatar>
+      <!-- {{admin.name}} -->
+    </div>
+    <el-col style="float: left; margin-left: -350px; margin-top: -60px; width: 200px;">
+      <!-- <h5>Custom colors</h5> -->
+      <el-menu
+        default-active="2"
+        class="el-menu-vertical-demo"
+        background-color="#545c64"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+        style="height: 100vh; float: left;"
+      >
+        <el-submenu index="1">
+          <template slot="title">
+            <i class="el-icon-location"></i>
+            <span class="main_title">Manage</span>
+          </template>
+          <el-menu-item-group title="Manage account & embedd">
+            <el-menu-item index="1-1">Update Account</el-menu-item>
+            <el-menu-item index="1-2">Device Embedd</el-menu-item>
+          </el-menu-item-group>
+          <el-menu-item-group title="Manage Users">
+            <el-submenu index="1-3">
+              <template slot="title">Users</template>
+              <el-menu-item index="1-3"
+                ><span class="demonstration" @click="dialogTableVisible = true"
+                  >User</span
+                >
+                <el-dialog>
+                  <template slot="scope">
+                    <el-table :data="tableData" style="width: 100%">
+                      <el-table-column
+                        fixed
+                        prop="date"
+                        label="Date"
+                        width="150"
+                      >
+                      </el-table-column>
+                      <el-table-column prop="name" label="Name" width="120">
+                      </el-table-column>
+                      <el-table-column prop="state" label="State" width="120">
+                      </el-table-column>
+                      <el-table-column prop="city" label="City" width="120">
+                      </el-table-column>
+                      <el-table-column
+                        prop="address"
+                        label="Address"
+                        width="300"
+                      >
+                      </el-table-column>
+                      <el-table-column prop="zip" label="Zip" width="120">
+                      </el-table-column>
+                      <el-table-column
+                        fixed="right"
+                        label="Operations"
+                        width="120"
+                      >
+                        <template slot="scope">
+                          <el-button
+                            type="text"
+                            size="small"
+                            >Detail</el-button
+                          >
+                          <el-button type="text" size="small">Edit</el-button>
+                        </template>
+                      </el-table-column>
+                    </el-table>
+                  </template>
+                </el-dialog>
+              </el-menu-item>
+            </el-submenu>
+          </el-menu-item-group>
+          <el-submenu index="1-4">
+            <template slot="title">VN electricity price list</template>
+            <el-menu-item index="1-4-1">
+              <span @click="dialogTableElecVisible = true"
+                >Electricity price</span
+              >
+              <el-dialog :visible.sync="dialogTableElecVisible">
+                <h1>Bậc giá bán lẻ điện sinh hoạt</h1>
+                <template>
+                  <el-table :data="tableElec" style="width: 100%">
+                    <el-table-column prop="bac" label="Bậc" width="50">
+                    </el-table-column>
+                    <el-table-column
+                      prop="tieu_thu"
+                      label="Tiêu Thụ (kWh)"
+                      width="180"
+                    >
+                    </el-table-column>
+                    <el-table-column prop="gia" label="Giá (Đồng/kWh)">
+                    </el-table-column>
+                    <el-table-column prop="gia_cu" label="Giá Cũ (Đồng/kWh)">
+                    </el-table-column>
+                  </el-table>
+                </template>
+              </el-dialog>
+            </el-menu-item>
+            <el-menu-item index="1-4-2">
+              <a href="https://sunemit.com/gia-ban-le-dien-sinh-hoat-cua-evn-moi-nhat/" target="_blank">Explore more</a>
+            </el-menu-item>
+          </el-submenu>
+        </el-submenu>
+        <el-menu-item index="2">
+          <span class="main_title" @click="dialogTableVisible = true"
+            ><i class="el-icon-menu"></i>Customers's information</span
+          >
+          <!-- <i class="el-icon-menu"></i> -->
+          <!--           <i class="el-icon-menu"></i>
+          <span>Navigator Two</span> -->
+          <!-- <el-popover placement="right" width="100vh" trigger="click" offset="200 200 40 400"> -->
+          <!--          <i class="el-icon-menu"></i>
+            <span>Navigator Two</span> -->
+          <el-dialog
+            title="Shipping address"
+            class="outD"
+            :visible.sync="dialogTableVisible"
+          >
+            <el-table
+              :data="gridData"
+              stripe
+              class="tableData"
+              style="height: 100vh; width: 100vh"
+            >
+              <el-table-column
+                width="50"
+                property="id"
+                label="ID"
+              ></el-table-column>
+              <el-table-column
+                width="100"
+                property="first_name"
+                label="First Name"
+              ></el-table-column>
+              <el-table-column
+                width="100"
+                property="last_name"
+                label="Last Name"
+              ></el-table-column>
+              <el-table-column
+                width="200"
+                property="full_name"
+                label="Full Name"
+              ></el-table-column>
+              <el-table-column
+                width="250"
+                property="address"
+                label="Address"
+              ></el-table-column>
+              <el-table-column
+                width="250"
+                property="province"
+                label="Province"
+              ></el-table-column>
+              <el-table-column
+                width="300"
+                property="email"
+                label="Email"
+              ></el-table-column>
+              <el-table-column
+                width="100"
+                property="mobile"
+                label="Mobile"
+              ></el-table-column>
+              <el-table-column
+                width="200"
+                property="district"
+                label="District"
+              ></el-table-column>
+              <el-table-column
+                width="200"
+                property="village"
+                label="Village"
+              ></el-table-column>
+              <el-table-column
+                width="150"
+                property="image"
+                label="Image"
+              ></el-table-column>
+              <el-table-column
+                width="150"
+                property="birth_day"
+                label="Birth Day"
+              ></el-table-column>
+              <el-table-column
+                width="200"
+                property="created_at"
+                label="Created At"
+              ></el-table-column>
+              <el-table-column
+                width="200"
+                property="updated_at"
+                label="Updated At"
+              ></el-table-column>
+              <el-table-column
+                width="150"
+                property="active_key"
+                label="Active Key"
+              ></el-table-column>
+            </el-table>
+            <!-- <span slot="reference">Navigator Two</span> -->
+            <!-- <el-button slot="reference">Click to activate</el-button> -->
+            <!-- <span class="main_title"
+              ><i class="el-icon-menu"></i>Customers's information</span
+            > -->
+          </el-dialog>
+          <!-- </el-popover> -->
+        </el-menu-item>
+        <el-menu-item index="3" class="main_title">
+          <i class="el-icon-document"></i>
+          <span>Customer's reviews</span>
+        </el-menu-item>
+        <el-menu-item>
+         <!--  <span class="demonstration">click to trigger</span> -->
+          <el-dropdown trigger="click">
+            <span class="el-dropdown-link">
+              <i class="el-icon-arrow-right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown" placement="bottom-end">
+              <el-table :data="tableData" style="width: 100%">
+                <el-table-column fixed prop="date" label="Date" width="150">
+                </el-table-column>
+                <el-table-column prop="name" label="Name" width="120">
+                </el-table-column>
+                <el-table-column prop="state" label="State" width="120">
+                </el-table-column>
+                <el-table-column prop="city" label="City" width="120">
+                </el-table-column>
+                <el-table-column prop="address" label="Address" width="300">
+                </el-table-column>
+                <el-table-column prop="zip" label="Zip" width="120">
+                </el-table-column>
+                <el-table-column fixed="right" label="Operations" width="120">
+                  <template slot="scope">
+                    <el-button type="text" size="small"
+                      >Detail</el-button
+                    >
+                    <el-button type="text" size="small">Edit</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </el-menu-item>
+        <!-- <el-menu-item>
+          <el-button type="text" @click="dialogTableVisible = true"
+            >open a Table nested Dialog</el-button
+          >
+
+          <el-dialog
+            title="Shipping address"
+            :visible.sync="dialogTableVisible"
+          >
+            <el-table :data="gridData"
+              ><el-button type="text" @click="dialogTableVisible = true"
+                >open a Table nested Dialog</el-button
+              >
+
+              <el-dialog
+                title="Shipping address"
+                :visible.sync="dialogTableVisible"
+              >
+                <el-table :data="gridData">
+                  <el-table-column
+                    property="date"
+                    label="Date"
+                    width="150"
+                  ></el-table-column>
+                  <el-table-column
+                    property="name"
+                    label="Name"
+                    width="200"
+                  ></el-table-column>
+                  <el-table-column
+                    property="address"
+                    label="Address"
+                  ></el-table-column>
+                </el-table>
+              </el-dialog>
+              <el-table-column
+                property="date"
+                label="Date"
+                width="150"
+              ></el-table-column>
+              <el-table-column
+                property="name"
+                label="Name"
+                width="200"
+              ></el-table-column>
+              <el-table-column
+                property="address"
+                label="Address"
+              ></el-table-column>
+            </el-table>
+          </el-dialog>
+        </el-menu-item> -->
+        <!-- <el-menu-item index="4" disabled>
+          <i class="el-icon-setting"></i>
+          <span>Navigator Four</span>
+        </el-menu-item> -->
+      </el-menu>
+    </el-col>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      gridData: [
+        {
+          id: "1",
+          email: "jack@gmail.com",
+          first_name: "Michal",
+          last_name: "Jack",
+          full_name: "Michal Jack",
+          province: "Thừa Thiên Huế",
+          mobile: "098xxxxxxx",
+          district: "Thừa Thiên Huế",
+          village: "Thừa Thiên Huế",
+          image: "abc",
+          created_at: "2016-05-02",
+          updated_at: "2021-02-12",
+          active_key: "34xx",
+          birth_day: "2016-05-02",
+          address: "New York City",
+        },
+        {
+          id: "2",
+          email: "jack@gmail.com",
+          first_name: "Michal",
+          last_name: "Jack",
+          full_name: "Michal Jack",
+          province: "Thừa Thiên Huế",
+          mobile: "098xxxxxxx",
+          district: "Thừa Thiên Huế",
+          village: "Thừa Thiên Huế",
+          image: "abc",
+          created_at: "2021-01-15",
+          updated_at: "2021-02-15",
+          active_key: "34xx",
+          birth_day: "2016-05-02",
+          address: "New York City",
+        },
+        {
+          id: "3",
+          email: "jack@gmail.com",
+          first_name: "Michal",
+          last_name: "Jack",
+          full_name: "Michal Jack",
+          province: "Thừa Thiên Huế",
+          mobile: "098xxxxxxx",
+          district: "Thừa Thiên Huế",
+          village: "Thừa Thiên Huế",
+          image: "abc",
+          created_at: "2021-01-15",
+          updated_at: "2021-02-15",
+          active_key: "34xx",
+          birth_day: "2016-05-02",
+          address: "New York City",
+        },
+        {
+          id: "4",
+          email: "jack@gmail.com",
+          first_name: "Michal",
+          last_name: "Jack",
+          full_name: "Michal Jack",
+          province: "Thừa Thiên Huế",
+          mobile: "098xxxxxxx",
+          district: "Thừa Thiên Huế",
+          village: "Thừa Thiên Huế",
+          image: "abc",
+          created_at: "2021-01-15",
+          updated_at: "2021-02-15",
+          active_key: "34xx",
+          birth_day: "2016-05-02",
+          address: "New York City",
+        },
+      ],
+      tableData: [
+        {
+          date: "2016-05-03",
+          name: "Tom",
+          state: "California",
+          city: "Los Angeles",
+          address: "No. 189, Grove St, Los Angeles",
+          zip: "CA 90036",
+          tag: "Home",
+        },
+        {
+          date: "2016-05-02",
+          name: "Tom",
+          state: "California",
+          city: "Los Angeles",
+          address: "No. 189, Grove St, Los Angeles",
+          zip: "CA 90036",
+          tag: "Office",
+        },
+        {
+          date: "2016-05-04",
+          name: "Tom",
+          state: "California",
+          city: "Los Angeles",
+          address: "No. 189, Grove St, Los Angeles",
+          zip: "CA 90036",
+          tag: "Home",
+        },
+        {
+          date: "2016-05-01",
+          name: "Tom",
+          state: "California",
+          city: "Los Angeles",
+          address: "No. 189, Grove St, Los Angeles",
+          zip: "CA 90036",
+          tag: "Office",
+        },
+      ],
+      tableElec: [
+        {
+          bac: "1",
+          gia_cu: "1.678",
+          gia: "1.549",
+          tieu_thu: "0-50",
+        },
+        {
+          bac: "2",
+          gia_cu: "1.600 ",
+          gia: "1.734  ",
+          tieu_thu: "51 – 100",
+        },
+        {
+          bac: "3",
+          gia_cu: "1.858",
+          gia: "2.014",
+          tieu_thu: "101 – 200 ",
+        },
+        {
+          bac: "4",
+          gia_cu: "2.340",
+          gia: "2.536",
+          tieu_thu: "201 – 300",
+        },
+        {
+          bac: "5",
+          gia_cu: "2.615",
+          gia: "2.834 ",
+          tieu_thu: "301 – 400",
+        },
+        {
+          bac: "6",
+          gia_cu: "2.701",
+          gia: "2.927 ",
+          tieu_thu: "Lớn hơn từ 401",
+        },
+      ],
+      tabPosition: "left",
+      dialogTableVisible: false,
+      dialogTableElecVisible: false,
+    };
+  },
+};
+</script>
+
+<style>
+.container {
+  width: 100%;
+  height: 100vh;
+}
+.nav {
+  background-color: bisque;
+  height: 60px;
+}
+.tableData {
+  width: 100vh;
+}
+.avata {
+  float: right;
+  margin: auto;
+  margin-right: 20px;
+  margin-top: 10px;
+}
+.el-icon-caret-bottom {
+  float: right;
+  margin: 25px -65px 0 0;
+}
+.main_title {
+  font-weight: 900;
+  font-size: 19px;
+}
+.el-popover {
+  margin-top: 70px;
+  margin-left: 50vh;
+  /* background: rgb(80, 74, 74); */
+}
+a {
+    color: rgb(219, 221, 255);
+}
+.outD {
+}
+el-input {
+  padding-left: 200px; padding-right: 200px;
+}
+.el-menu-vertical-demo el-menu {
+  float: left;
+  margin-left: -200px;
+}
+.el-col el-col-24 {
+  float: left;
+  margin-left: -200px;
+}
+</style>
+
+
+
+
+<template>
+<div class="moi">
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Dashboard</a>
+      <el-button type="button"
+              class="navbar-toggler navbar-toggler-right">
+        <span class="navbar-toggler-bar burger-lines"></span>
+        <span class="navbar-toggler-bar burger-lines"></span>
+        <span class="navbar-toggler-bar burger-lines"></span>
+      </el-button>
+      <div class="collapse navbar-collapse justify-content-end">
+        <ul class="nav navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-toggle="dropdown">
+              <i class="nc-icon nc-palette"></i>
+            </a>
+          </li>
+          <base-dropdown tag="li">
+            <template slot="title">
+              <i class="nc-icon nc-planet"></i>
+              <b class="caret"></b>
+              <span class="notification">5</span>
+            </template>
+            <a class="dropdown-item" href="#">Notification 1</a>
+            <a class="dropdown-item" href="#">Notification 2</a>
+            <a class="dropdown-item" href="#">Notification 3</a>
+            <a class="dropdown-item" href="#">Notification 4</a>
+            <a class="dropdown-item" href="#">Another notification</a>
+          </base-dropdown>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nc-icon nc-zoom-split"></i>
+              <span class="d-lg-block">&nbsp;Search</span>
+            </a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Account
+            </a>
+          </li>
+          <base-dropdown title="Dropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something</a>
+            <div class="divider"></div>
+            <a class="dropdown-item" href="#">Separated link</a>
+          </base-dropdown>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              Log out
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+</template>
+
+Router ở đây
+
+{
+        path: "/dashboard",
+        component: dashboard,
+        children: [{
+                path: "",
+                component: () =>
+                    import ( /* webpackChunkName: "Overview" */ "../views/Overview.vue"),
+            },
+            {
+                path: "/messages",
+                component: () =>
+                    import ( /* webpackChunkName: "Messages" */ "../views/Messages.vue"),
+            },
+            {
+                path: "/profile",
+                component: () =>
+                    import ( /* webpackChunkName: "Profile" */ "../views/Profile.vue"),
+            },
+            {
+                path: "/daboardcus",
+                component: () =>
+                    import ( /* webpackChunkName: "Settings" */ "../views/DaboardCus.vue"),
+            },
+            {
+                path: "/settings",
+                component: () =>
+                    import ( /* webpackChunkName: "Settings" */ "../views/Settings.vue"),
+            },
+        ],
+    },

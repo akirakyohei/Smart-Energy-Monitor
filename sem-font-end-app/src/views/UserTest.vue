@@ -2,6 +2,12 @@
 <template>
   <div class="container">
     <div class="nav">
+         <el-input
+              v-model="search"
+              size="medium"
+              placeholder="Enter to search ..."
+              style="float: center; width: 30%; margin-top: 15px; margin-left: 300px;"
+            />
       <p
         style="
           float: right;
@@ -11,9 +17,9 @@
           margin-right: 20px;
         "
       >
-        Admin
+        thuytt1599@gmail.column
       </p>
-      <i class="el-icon-caret-bottom"></i>
+      <i class="el-icon-caret-bottom" style="margin-right: -205px;"></i>
       <el-avatar
         class="avata"
         src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
@@ -34,14 +40,14 @@
       >
         <el-submenu index="1">
           <template slot="title">
-            <i class="el-icon-location"></i>
-            <span class="main_title">Manage</span>
+            <i class="el-icon-s-home"></i>
+            <span class="main_title">Energy Board</span>
           </template>
-          <el-menu-item-group title="Manage account & embedd">
+          <!-- <el-menu-item-group title="Manage account & embedd">
             <el-menu-item index="1-1">Account</el-menu-item>
             <el-menu-item index="1-2">Device Embedd</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="Manage Users">
+          </el-menu-item-group> -->
+          <!-- el-menu-item-group title="Manage Users">
             <el-submenu index="1-3">
               <template slot="title">Users</template>
               <el-menu-item index="1-3"
@@ -122,11 +128,11 @@
             <el-menu-item index="1-4-2">
               <a href="https://sunemit.com/gia-ban-le-dien-sinh-hoat-cua-evn-moi-nhat/" target="_blank">Explore more</a>
             </el-menu-item>
-          </el-submenu>
+          </el-submenu> -->
         </el-submenu>
         <el-menu-item index="2">
           <span class="main_title" @click="dialogTableVisible = true"
-            ><i class="el-icon-menu"></i>Customers's information</span
+            ><i class="el-icon-edit-outline"></i>Edit Profile</span
           >
           <!-- <i class="el-icon-menu"></i> -->
           <!--           <i class="el-icon-menu"></i>
@@ -229,12 +235,20 @@
           </el-dialog>
           <!-- </el-popover> -->
         </el-menu-item>
+        <el-menu-item index="" class="main_title">
+          <i class="el-icon-chat-dot-square"></i>
+          <span>Chating</span>
+        </el-menu-item>
         <el-menu-item index="3" class="main_title">
-          <i class="el-icon-document"></i>
-          <span>Customer's reviews</span>
+          <i class="el-icon-message-solid"></i>
+          <span>Notification</span>
+        </el-menu-item>
+        <el-menu-item index="3" class="main_title">
+          <i class="el-icon-s-promotion"></i>
+          <span>Rating</span>
         </el-menu-item>
         <el-menu-item>
-          <span class="demonstration">click to trigger</span>
+          <!-- <span class="demonstration">click to trigger</span> -->
           <el-dropdown trigger="click">
             <span class="el-dropdown-link">
               <i class="el-icon-arrow-right"></i>
@@ -323,6 +337,11 @@
         </el-menu-item> -->
       </el-menu>
     </el-col>
+    <!-- <el-col :span="12">
+        <div class="totalE">
+        </div>
+        <h1> Hùy tai t</h1>
+    </el-col> -->
   </div>
 </template>
 
@@ -484,7 +503,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .nav {
   background-color: bisque;
   height: 60px;

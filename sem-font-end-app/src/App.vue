@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view />
+    <router-view></router-view>
   </div>
 </template>
 
@@ -11,20 +11,12 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-color: rgb(124, 74, 204);
+  /* background-color: rgb(124, 74, 204); */
   height: 100vh;
   width: 100%;
+  background-color: white;
 }
-
-.el-col {
-  border-radius: 4px;
-}
-.grid-content {
-  border-radius: 4px;
-  min-height: 36px;
-}
-.row-bg {
-  padding: 10px 0;
-  background-color: #f9fafc;
+body {
+  background-color: white;
 }
 </style>
